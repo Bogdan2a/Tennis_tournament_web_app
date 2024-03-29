@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+</head>
+<body>
+<h2>User Registration</h2>
+<form action="/api/users/register" method="post">
+    Username: <input type="text" name="username" required><br>
+    Password: <input type="password" name="password" required><br>
+    Email: <input type="email" name="email" required><br>
+    Role:
+    <select name="role" required>
+        <option value="PLAYER">Player</option>
+        <option value="REFEREE">Referee</option>
+        <option value="ADMIN">Admin</option>
+    </select><br>
+    <input type="submit" value="Register">
+</form>
+</body>
+</html>

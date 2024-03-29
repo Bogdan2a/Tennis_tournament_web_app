@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournaments</title>
+</head>
+<body>
+<h2>Tournaments</h2>
+<ul id="tournamentList"></ul>
+<script>
+    fetch('/api/tournaments')
+        .then(response => response.json())
+        .then(data => {
+            const tournamentList = document.getElementById('tournamentList');
+            data.forEach(tournament => {
+                const li = document.createElement('li');
+                li.textContent = tournament.tournamentName;
+                tournamentList.appendChild(li);
+            });
+        });
+</script>
+</body>
+</html>
