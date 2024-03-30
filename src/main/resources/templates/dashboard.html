@@ -21,7 +21,7 @@
   }
 
   // Get user role from the backend
-  var role = "{{ userRole }}"; // This will be replaced by the actual user role fetched from the backend
+  var role = /*[[${userRole}]]*/ "ADMINISTRATOR"; // This will be replaced by the actual user role fetched from the backend
 
   // Add appropriate dashboard links based on user role
   if (role === "TENNIS_PLAYER") {

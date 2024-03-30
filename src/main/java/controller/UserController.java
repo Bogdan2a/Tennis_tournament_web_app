@@ -53,18 +53,41 @@ public class UserController {
             // Perform login logic (e.g., generate token, store in session)
             String token = userService.loginUser(user);
             // Redirect to the dashboard page
-            return ResponseEntity.status(HttpStatus.OK).body("/dashboard.html");
+            // Retrieve user role
+            String userRole = userService.getUserRole(user.getUsername());
+
+            // Redirect to the appropriate dashboard based on user role
+            String dashboardUrl;
+            if ("TENNIS_PLAYER".equals(userRole)) {
+                dashboardUrl = "/api/users/player_dashboard.html";
+            } else if ("REFEREE".equals(userRole)) {
+                dashboardUrl = "/api/users/referee_dashboard.html";
+            } else if ("ADMIN".equals(userRole)) {
+                dashboardUrl = "/api/users/admin_dashboard.html";
+            } else {
+                // Default dashboard for unknown roles
+                dashboardUrl = "/api/users/player_dashboard.html";
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(dashboardUrl);
         } else {
             // User authentication failed
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
 
-
-    @GetMapping("/dashboard.html")
-    public String showDashboardPage() {
-        return "dashboard"; // Return the name of the HTML file (without the extension)
+    @GetMapping("/player_dashboard.html")
+    public String showPlayerDashboard() {
+        return "player_dashboard"; // Return the name of the HTML file (without the extension)
     }
+    @GetMapping("/referee_dashboard.html")
+    public String showRefereeDashboard() {
+        return "referee_dashboard"; // Return the name of the HTML file (without the extension)
+    }
+    @GetMapping("/admin_dashboard.html")
+    public String showAdminDashboard() {
+        return "admin_dashboard"; // Return the name of the HTML file (without the extension)
+    }
+
 
 
     @PutMapping("/{userId}")

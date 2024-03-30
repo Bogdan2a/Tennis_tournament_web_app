@@ -37,23 +37,33 @@
         })
             .then(response => {
                 if (response.ok) {
-                    // Login successful, handle accordingly (e.g., store token, redirect to dashboard)
-                    console.log("Login successful");
-                    window.location.href = "/api/users/dashboard.html"; // Redirect to dashboard
+                    // Redirect to dashboard using the URL received from the server
+                    return response.text(); // Return the URL of the dashboard
                 } else {
                     // Login failed, handle accordingly
                     return response.text(); // Return the error message
                 }
             })
-            .then(errorMessage => {
-                // Display error message
-                document.getElementById("errorMessage").textContent = errorMessage;
+            .then(responseData => {
+                if (responseData.startsWith("/")) {
+                    // Construct the full URL by prepending the base URL
+                    var baseUrl = window.location.origin;
+                    var dashboardUrl = baseUrl + responseData;
+
+                    // Redirect to the dashboard page
+                    window.location.href = dashboardUrl;
+                } else {
+                    // Display error message
+                    document.getElementById("errorMessage").textContent = responseData;
+                }
             })
             .catch(error => {
                 console.error("Error logging in:", error);
             });
     });
 </script>
+
+
 
 </body>
 </html>
