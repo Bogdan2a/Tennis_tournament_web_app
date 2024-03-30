@@ -63,6 +63,12 @@ INSERT INTO users (username, password, email, role) VALUES
 ('admin1', 'hashedPass3', 'admin@example.com', 'ADMIN'),
 ('sarahT', 'hashedPass4', 'sarah@example.com', 'PLAYER'),
 ('referee2', 'hashedPass5', 'referee2@example.com', 'REFEREE');
+INSERT INTO users (username, password, email, role) VALUES
+('user1', 'user1', 'test@test.com', 'PLAYER');
+INSERT INTO users (username, password, email, role) VALUES
+('ref1', 'ref1', 'test1@test.com', 'REFEREE'),
+('admin2', 'admin2', 'test2@test.com', 'ADMIN');
+
 
 -- Populate tournaments table
 INSERT INTO tournaments (tournament_name, start_date, end_date) VALUES

@@ -20,8 +20,10 @@
     document.getElementById("dashboardLinks").appendChild(listItem);
   }
 
-  // Determine user role and add appropriate dashboard links
-  var role = "ADMINISTRATOR"; // Replace with actual user role fetched from backend
+  // Get user role from the backend
+  var role = "{{ userRole }}"; // This will be replaced by the actual user role fetched from the backend
+
+  // Add appropriate dashboard links based on user role
   if (role === "TENNIS_PLAYER") {
     addDashboardLink("Tournament Registration", "/tournament_registration.html");
     addDashboardLink("View Tour Schedule", "/schedule.html");

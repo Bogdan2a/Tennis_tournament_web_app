@@ -13,5 +13,7 @@ public interface UserService {
     List<User> getAllUsers();
 
     boolean validateUserCredentials(String username, String password);
+
+    String getUserRole(String username);
     // Other methods for user account management
 }

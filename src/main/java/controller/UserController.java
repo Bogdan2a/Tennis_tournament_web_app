@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,13 +50,20 @@ public class UserController {
         // Validate user credentials
         boolean isValidUser = userService.validateUserCredentials(user.getUsername(), user.getPassword());
         if (isValidUser) {
-            // Perform login logic
+            // Perform login logic (e.g., generate token, store in session)
             String token = userService.loginUser(user);
-            return ResponseEntity.ok().body(token);
+            // Redirect to the dashboard page
+            return ResponseEntity.status(HttpStatus.OK).body("/dashboard.html");
         } else {
             // User authentication failed
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
+    }
+
+
+    @GetMapping("/dashboard.html")
+    public String showDashboardPage() {
+        return "dashboard"; // Return the name of the HTML file (without the extension)
     }
 
 
