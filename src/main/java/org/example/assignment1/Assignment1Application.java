@@ -22,19 +22,20 @@ public class Assignment1Application {
         SpringApplication.run(Assignment1Application.class, args);
     }
 
-    @Bean
+   /* @Bean
     public CommandLineRunner printAllUsers(UserService userService) {
         return args -> {
             List<User> users = userService.getAllUsers();
-            System.out.println("All Users:");
+            StringBuilder usernames = new StringBuilder();
             if (users != null) {
                 for (User user : users) {
-                    System.out.println(user.getUsername());
+                    usernames.append(user.getUsername()).append(", ");
                 }
             } else {
-                System.out.println("No users found.");
+                usernames.append("No users found.");
             }
+            System.out.println("All Users: " + usernames);
         };
     }
-
+*/
 }

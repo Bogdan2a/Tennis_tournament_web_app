@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h1>Login to Your Account</h1>
+<form id="loginForm" action="/api/users/login" method="POST">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
+    <button type="submit">Login</button>
+</form>
+<a href="/register.html">Don't have an account? Register</a>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get form data
+        var formData = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        };
+
+        // Send POST request to login user
+        fetch("/api/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json" // Specify JSON content type
+            },
+            body: JSON.stringify(formData) // Convert formData to JSON string
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Login successful, handle accordingly (e.g., store token, redirect to dashboard)
+                    console.log("Login successful");
+                    window.location.href = "/dashboard.html"; // Redirect to dashboard
+                } else {
+                    // Login failed, handle accordingly
+                    console.error("Login failed");
+                }
+            })
+            .catch(error => {
+                console.error("Error logging in:", error);
+            });
+    });
+</script>
+
+</body>
+</html>

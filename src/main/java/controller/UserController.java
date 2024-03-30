@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/users")
@@ -20,6 +24,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/")
+    public String index(Model model) {
+        List<User> users = userService.getAllUsers();
+        List<String> usernames = users.stream().map(User::getUsername).collect(Collectors.toList());
+        model.addAttribute("usernames", usernames);
+        return "index";
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         // Validate user data
@@ -28,14 +40,24 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/login.html")
+    public String showLoginPage() {
+        return "login"; // Return the name of the HTML file (without the extension)
+    }
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         // Validate user credentials
-        // Perform login
-        // Generate JWT token
-        String token = userService.loginUser(user);
-        return ResponseEntity.ok().body(token);
+        boolean isValidUser = userService.validateUserCredentials(user.getUsername(), user.getPassword());
+        if (isValidUser) {
+            // Perform login logic
+            String token = userService.loginUser(user);
+            return ResponseEntity.ok().body(token);
+        } else {
+            // User authentication failed
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
     }
+
 
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user) {

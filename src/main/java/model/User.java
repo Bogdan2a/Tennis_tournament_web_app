@@ -11,17 +11,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name="username")
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="password")
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, name="email")
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name="role")
     private UserRole role;
 
     // Constructors

@@ -11,5 +11,7 @@ public interface UserService {
     void updateUser(Long userId, User user);
 
     List<User> getAllUsers();
+
+    boolean validateUserCredentials(String username, String password);
     // Other methods for user account management
 }
