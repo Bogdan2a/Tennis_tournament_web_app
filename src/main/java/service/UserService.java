@@ -18,5 +18,11 @@ public interface UserService {
     String getUserRole(String username);
 
     User getUserById(Long userId);
+
+    User getUserByUsername(String username);
+
+    void updateUserByUsername(String username, User user);
+
+    Long getUserIdByUsername(String username);
     // Other methods for user account management
 }

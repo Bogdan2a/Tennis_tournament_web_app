@@ -1,20 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Update Account Information</title>
+  <title>Update User</title>
 </head>
 <body>
-<h1>Update Your Account Information</h1>
-<!-- Form to update account information -->
-<form action="/update" method="post">
-  <!-- Include fields to update account information -->
+<h1>Update User</h1>
+
+<form id="updateUserForm">
+  <input type="hidden" id="userId" name="userId" value="11"><br> <!-- Pre-fill with user ID -->
+
   <label for="username">Username:</label><br>
-  <input type="text" id="username" name="username" required><br>
+  <input type="text" id="username" name="username"><br>
   <label for="password">Password:</label><br>
-  <input type="password" id="password" name="password" required><br><br>
+  <input type="password" id="password" name="password"><br>
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br>
+  <!-- Role field is removed -->
+
   <button type="submit">Update</button>
 </form>
-<!-- Navigation link back to dashboard -->
-<a href="/templates/dashboard.htmlboard.html">Back to Dashboard</a>
+
+<p id="message" style="color: red;"></p>
+
+<!-- Display original user information -->
+<div id="originalUserInfo">
+  <h2>Original User Information</h2>
+  <p id="originalUsername">Original Username: </p>
+  <p id="originalPassword">Original Password: </p>
+  <p id="originalEmail">Original Email: </p>
+</div>
+
+<script>
+  // Function to fetch and display original user information
+  function displayOriginalUserInfo(userId) {
+    fetch("/api/users/user?userId=" + userId)
+            .then(response => response.json())
+            .then(user => {
+              // Display original user information
+              document.getElementById("originalUsername").textContent += user.username;
+              document.getElementById("originalPassword").textContent += user.password;
+              document.getElementById("originalEmail").textContent += user.email;
+            })
+            .catch(error => {
+              console.error("Error fetching original user information:", error);
+            });
+  }
+
+  // Call the function to display original user information when the page loads
+  var userId = document.getElementById("userId").value;
+  displayOriginalUserInfo(userId);
+
+  document.getElementById("updateUserForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Get form data
+    var formData = {
+      userId: document.getElementById("userId").value, // User ID
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+      email: document.getElementById("email").value
+    };
+
+    // Send PUT request to update user
+    fetch("/api/users/update_account/" + formData.userId, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+            .then(response => {
+              if (response.ok) {
+                return response.text(); // Return success message
+              } else {
+                return response.text(); // Return error message
+              }
+            })
+            .then(message => {
+              document.getElementById("message").textContent = message; // Display message
+            })
+            .catch(error => {
+              console.error("Error updating user:", error);
+              document.getElementById("message").textContent = "Failed to update user.";
+            });
+  });
+</script>
+
 </body>
 </html>

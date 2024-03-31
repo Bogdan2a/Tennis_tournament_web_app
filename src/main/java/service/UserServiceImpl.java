@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
         return user != null && user.getPassword().equals(password);
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
 
     @Override
     public String getUserRole(String username) {
@@ -82,6 +87,31 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(existingUser);
+    }
+
+    public void updateUserByUsername(String username, User user) {
+        User existingUser = userRepository.findByUsername(username);
+
+        // Update fields only if the new value is not null
+        if (user.getUsername() != null && !Objects.equals(user.getUsername(), "")) {
+            existingUser.setUsername(user.getUsername());
+        }
+        if (user.getEmail() != null && !Objects.equals(user.getEmail(), "")){
+            existingUser.setEmail(user.getEmail());
+        }
+        if (user.getPassword() != null && !Objects.equals(user.getPassword(), "")){
+            existingUser.setPassword(user.getPassword());
+        }
+        if (user.getRole() != null && !Objects.equals(user.getRole(), "")){
+            existingUser.setRole(user.getRole());
+        }
+
+        userRepository.save(existingUser);
+    }
+
+    public Long getUserIdByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return user.getId();
     }
 
 

@@ -60,21 +60,21 @@ public class UserController {
         if (isValidUser) {
             // Perform login logic (e.g., generate token, store in session)
             String token = userService.loginUser(user);
-            // Redirect to the dashboard page
-            // Retrieve user role
+            // Retrieve user role and ID
             String userRole = userService.getUserRole(user.getUsername());
+            Long userId = userService.getUserIdByUsername(user.getUsername());
 
             // Redirect to the appropriate dashboard based on user role
             String dashboardUrl;
             if ("TENNIS_PLAYER".equals(userRole)) {
-                dashboardUrl = "/api/users/player_dashboard.html";
+                dashboardUrl = "/api/users/player_dashboard.html?userId=" + userId;
             } else if ("REFEREE".equals(userRole)) {
-                dashboardUrl = "/api/users/referee_dashboard.html";
+                dashboardUrl = "/api/users/referee_dashboard.html?userId=" + userId;
             } else if ("ADMIN".equals(userRole)) {
-                dashboardUrl = "/api/users/admin_dashboard.html";
+                dashboardUrl = "/api/users/admin_dashboard.html?userId=" + userId;
             } else {
                 // Default dashboard for unknown roles
-                dashboardUrl = "/api/users/player_dashboard.html";
+                dashboardUrl = "/api/users/player_dashboard.html?userId=" + userId;
             }
             return ResponseEntity.status(HttpStatus.OK).body(dashboardUrl);
         } else {
@@ -82,6 +82,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
+
 
     @GetMapping("/player_dashboard.html")
     public String showPlayerDashboard() {
@@ -139,7 +140,6 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/delete_user.html")
     public String showDeleteUser(Model model) {
         List<User> users = userService.getAllUsers();
@@ -150,12 +150,89 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         try {
             userService.deleteUser(userId);
+           // List<User> users = userService.getAllUsers();
+            //model.addAttribute("users", users);
             return ResponseEntity.ok("User deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user: " + e.getMessage());
         }
     }
 
+    @GetMapping("/admin_view_users.html")
+    public String showAdminViewUsers(Model model) {
+        // Fetch all users from the database
+        List<User> users = userService.getAllUsers();
+
+        // Add the list of users to the model
+        model.addAttribute("users", users);
+
+        // Return the name of the HTML file
+        return "admin_view_users";
+    }
+
+
+    @GetMapping("/update_account.html")
+    public String showUpdateAccountForm(@RequestParam Long userId, Model model) {
+        // Fetch the user based on the userId
+        User user = userService.getUserById(userId);
+
+        // Add the user to the model
+        model.addAttribute("user", user);
+
+        // Return the name of the HTML file
+        return "update_account";
+    }
+
+    @PutMapping("/update_account/{userId}")
+    public ResponseEntity<String> updateAccount(@PathVariable Long userId, @RequestBody User user) {
+        try {
+            // Fetch the existing user by ID
+            User existingUser = userService.getUserById(userId);
+
+            // Update user fields if provided in the request body
+            if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+                existingUser.setUsername(user.getUsername());
+            }
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                existingUser.setPassword(user.getPassword());
+            }
+            if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+                existingUser.setEmail(user.getEmail());
+            }
+
+            // Save the updated user
+            userService.updateUser(userId, existingUser);
+
+            return ResponseEntity.ok("User account updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to update user account: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<User> getUserById(@RequestParam Long userId) {
+        try {
+            // Fetch the user by ID
+            User user = userService.getUserById(userId);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/get_user_by_id/{userId}")
+    public ResponseEntity<User> getUserByIdForMessage(@PathVariable Long userId) {
+        try {
+            // Fetch the user by ID
+            User user = userService.getUserById(userId);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
 
 
     // Other methods for user account management

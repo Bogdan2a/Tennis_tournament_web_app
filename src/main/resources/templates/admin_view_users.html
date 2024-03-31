@@ -5,13 +5,28 @@
 </head>
 <body>
 <h1>All Users</h1>
-<p>Here is the list of all registered users:</p>
-<ul>
-  <!-- Display list of all users -->
-  <li>User 1: [User Details]</li>
-  <li>User 2: [User Details]</li>
-  <!-- Add more users as needed -->
-</ul>
-<!-- Add any additional content or functionality as required -->
+
+
+<!-- Table to display user information -->
+<table border="1">
+  <tr>
+    <th>User ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Role</th>
+  </tr>
+  <!-- Loop through users and display each user's information -->
+  <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
+  <!-- Use Thymeleaf to iterate over the list of users -->
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.email}"></td>
+    <td th:text="${user.role}"></td>
+  </tr>
+  <!-- End of user information -->
+</table>
+
+
 </body>
 </html>
