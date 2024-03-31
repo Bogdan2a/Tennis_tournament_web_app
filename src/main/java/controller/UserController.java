@@ -33,18 +33,26 @@ public class UserController {
         return "index";
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        // Validate user data
-        // Perform registration
-        userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping("/register.html")
+    public String showRegisterPage(Model model) {
+        return "register";
     }
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        try {
+            userService.registerUser(user);
+            return ResponseEntity.ok("User registered successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user: " + e.getMessage());
+        }
+    }
+
 
     @GetMapping("/login.html")
     public String showLoginPage() {
         return "login"; // Return the name of the HTML file (without the extension)
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         // Validate user credentials
@@ -87,16 +95,68 @@ public class UserController {
     public String showAdminDashboard() {
         return "admin_dashboard"; // Return the name of the HTML file (without the extension)
     }
+    @GetMapping("/admin_user_management.html")
+    public String showAdminUserManagement(Model model) {
+        // Fetch all users from the database
+        List<User> users = userService.getAllUsers();
 
+        // Add the list of users to the model
+        model.addAttribute("users", users);
 
-
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user) {
-        // Validate user data
-        // Perform update
-        userService.updateUser(userId, user);
-        return ResponseEntity.ok().build();
+        // Return the name of the HTML file
+        return "admin_user_management";
     }
+    @GetMapping("/create_user.html")
+    public String showCreateUser(Model model) {
+        List<User> users = userService.getAllUsers();
+
+        // Add the list of users to the model
+        model.addAttribute("users", users);
+        return "create_user"; // Return the name of the HTML file (without the extension)
+    }
+    @PostMapping("/create_user")
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        try {
+            userService.createUser(user);
+            return ResponseEntity.ok("User created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user: " + e.getMessage());
+        }
+    }
+    @GetMapping("/update_user.html")
+    public String showUpdateUser(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "update_user";
+    }
+    @PutMapping("/update_user/{userId}")
+    public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody User user) {
+        try {
+            userService.updateUser(userId, user);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update user: " + e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/delete_user.html")
+    public String showDeleteUser(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "delete_user";
+    }
+    @DeleteMapping("/delete_user/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user: " + e.getMessage());
+        }
+    }
+
+
 
     // Other methods for user account management
 }

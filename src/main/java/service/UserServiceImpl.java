@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,18 +27,6 @@ public class UserServiceImpl implements UserService {
         return "JWT_TOKEN";
     }
 
-    @Override
-    public void updateUser(Long userId, User user) {
-        // Implement update logic
-        // Find user by ID
-        User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        // Update user data
-        existingUser.setUsername(user.getUsername());
-        existingUser.setEmail(user.getEmail());
-        // Save updated user
-        userRepository.save(existingUser);
-    }
 
     @Override
     public List<User> getAllUsers() {
@@ -68,6 +57,41 @@ public class UserServiceImpl implements UserService {
             // Return a default role if user role is not found or there is an error
             return "DEFAULT_ROLE";
         }
+    }
+
+    public void createUser(User user) {
+        userRepository.save(user);
+    }
+
+    public void updateUser(Long userId, User user) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Update fields only if the new value is not null
+        if (user.getUsername() != null && !Objects.equals(user.getUsername(), "")) {
+            existingUser.setUsername(user.getUsername());
+        }
+        if (user.getEmail() != null && !Objects.equals(user.getEmail(), "")){
+            existingUser.setEmail(user.getEmail());
+        }
+        if (user.getPassword() != null && !Objects.equals(user.getPassword(), "")){
+            existingUser.setPassword(user.getPassword());
+        }
+        if (user.getRole() != null && !Objects.equals(user.getRole(), "")){
+            existingUser.setRole(user.getRole());
+        }
+
+        userRepository.save(existingUser);
+    }
+
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
 }

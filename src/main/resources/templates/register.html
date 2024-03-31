@@ -6,17 +6,56 @@
 </head>
 <body>
 <h2>User Registration</h2>
-<form action="/api/users/register" method="post">
+<form id="registrationForm" action="/api/users/register" method="post">
     Username: <input type="text" name="username" required><br>
     Password: <input type="password" name="password" required><br>
     Email: <input type="email" name="email" required><br>
     Role:
     <select name="role" required>
-        <option value="PLAYER">Player</option>
-        <option value="REFEREE">Referee</option>
-        <option value="ADMIN">Admin</option>
+        <option value="PLAYER" selected>Player</option>
     </select><br>
     <input type="submit" value="Register">
 </form>
+
+<p id="registrationMessage" style="color: green;"></p>
+
+<script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get form data
+        var formData = {
+            username: document.getElementsByName("username")[0].value,
+            password: document.getElementsByName("password")[0].value,
+            email: document.getElementsByName("email")[0].value,
+            role: document.getElementsByName("role")[0].value
+        };
+
+        // Send POST request to register user
+        fetch("/api/users/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json" // Specify JSON content type
+            },
+            body: JSON.stringify(formData) // Convert formData to JSON string
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Registration successful
+                    document.getElementById("registrationMessage").textContent = "User registered successfully";
+                } else {
+                    // Registration failed
+                    response.text().then(message => {
+                        document.getElementById("registrationMessage").textContent = message;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error registering user:", error);
+                document.getElementById("registrationMessage").textContent = "Failed to register user";
+            });
+    });
+</script>
+<button onclick="window.location.href='/api/users/login.html'">Back to Login</button>
 </body>
 </html>

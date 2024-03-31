@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update User</title>
+</head>
+<body>
+<h1>Update User</h1>
+
+<form id="updateUserForm">
+    <label for="userId">User ID:</label><br>
+    <select id="userId">
+        <option value="">Select User ID</option>
+        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.id}"></option>
+    </select><br>
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br>
+    <label for="role">Role:</label><br>
+    <select id="role" name="role">
+        <option value="PLAYER">Player</option>
+        <option value="REFEREE">Referee</option>
+        <option value="ADMIN">Admin</option>
+    </select><br>
+    <button type="submit">Update</button>
+</form>
+
+<p id="message" style="color: red;"></p>
+
+<table border="1">
+    <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+    <!-- Loop through users and display each user's information -->
+    <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
+    <!-- Use Thymeleaf to iterate over the list of users -->
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.role}"></td>
+    </tr>
+    <!-- End of user information -->
+</table>
+
+<script>
+    // Fetch user IDs from the backend and populate the dropdown
+    fetch("/api/users/all")
+        .then(response => response.json())
+        .then(users => {
+            var userIdSelect = document.getElementById("userId");
+            users.forEach(user => {
+                var option = document.createElement("option");
+                option.value = user.id;
+                option.textContent = user.id;
+                userIdSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching user IDs:", error);
+        });
+
+    document.getElementById("updateUserForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get form data
+        var formData = {
+            userId: document.getElementById("userId").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            email: document.getElementById("email").value,
+            role: document.getElementById("role").value
+        };
+
+        // Send PUT request to update user
+        fetch("/api/users/update_user/" + formData.userId, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json" // Specify JSON content type
+            },
+            body: JSON.stringify(formData) // Convert formData to JSON string
+        })
+            .then(response => response.text())
+            .then(message => {
+                document.getElementById("message").textContent = message;
+            })
+            .catch(error => {
+                console.error("Error updating user:", error);
+            });
+    });
+</script>
+
+</body>
+</html>

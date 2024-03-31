@@ -6,10 +6,31 @@
 <body>
 <h1>User Management</h1>
 <p>Perform CRUD operations for user accounts:</p>
-<!-- Add forms or buttons for user management operations -->
-<!-- Example: -->
-<button onclick="window.location.href='/create_user.html'">Create User</button>
-<button onclick="window.location.href='/update_user.html'">Update User</button>
-<button onclick="window.location.href='/delete_user.html'">Delete User</button>
+
+<!-- Table to display user information -->
+<table border="1">
+  <tr>
+    <th>User ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Role</th>
+  </tr>
+  <!-- Loop through users and display each user's information -->
+  <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
+  <!-- Use Thymeleaf to iterate over the list of users -->
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.email}"></td>
+    <td th:text="${user.role}"></td>
+  </tr>
+  <!-- End of user information -->
+</table>
+
+<!-- Buttons for CRUD operations -->
+<button onclick="window.location.href='/api/users/create_user.html'">Create User</button>
+<button onclick="window.location.href='/api/users/update_user.html'">Update User</button>
+<button onclick="window.location.href='/api/users/delete_user.html'">Delete User</button>
+
 </body>
 </html>
