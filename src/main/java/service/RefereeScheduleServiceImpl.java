@@ -18,5 +18,14 @@ public class RefereeScheduleServiceImpl implements RefereeScheduleService {
         return refereeScheduleRepository.findAll();
     }
 
+    @Override
+    public void addRefereeSchedule(RefereeSchedule refereeSchedule) {
+        refereeScheduleRepository.save(refereeSchedule);
+    }
+
+    @Override
+    public List<RefereeSchedule> getRefereeSchedulesByRefereeId(Long refereeId) {
+        return refereeScheduleRepository.findByRefereeId(refereeId);
+    }
     // Implement other methods for referee schedule management
 }

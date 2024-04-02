@@ -9,10 +9,13 @@
 <!-- Greeting message will be inserted here -->
 <p id="greetingMessage"></p>
 
+<!--
 <img class="img-fluid" src="https://cdn.discordapp.com/attachments/1064630844024692820/1223764845275385866/din.bmp?ex=661b0ad3&is=660895d3&hm=c91d1b5e4d92a2be7a822998dd37cfc6afe8486e4197b973e90be11bd3e987e8&" alt="">
+-->
 
 <ul>
-  <li><a href="/templates/referee_own_program.html">View Own Program</a></li>
+  <li><a href='/api/referee-schedules/referee_own_program.html' id="ownScheduleUrl">View Own Program</a></li>
+  <li><a th:href="@{/api/referee_schedules/referee_own_program.html(userId=${userId})}">View Own Program by Deea Cratza</a></li>
   <li><a href="/templates/manage_match_score.html">Manage Match Score</a></li>
   <li><a href='/api/users/update_account.html' id="updateAccountLink">Update Account Information</a></li>
 </ul>
@@ -47,11 +50,21 @@
 
     // Construct the URL for updating account information
     var updateAccountUrl = '/api/users/update_account.html?userId=' + userId;
-
     // Redirect to the update account page
     window.location.href = updateAccountUrl;
   });
+
+  // Add event listener to the own schedule link
+  document.getElementById("ownScheduleUrl").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    // Construct the URL for viewing the referee's own program
+    var ownScheduleUrl = '/api/referee-schedules/referee_own_program.html?userId=' + userId;
+    // Redirect to the own schedule page
+    window.location.href = ownScheduleUrl;
+  });
 </script>
+
 
 </body>
 </html>

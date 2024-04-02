@@ -2,21 +2,25 @@ package model;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import repository.MatchRepository;
 
 @Entity
 @Table(name = "referee_schedule")
 public class RefereeSchedule {
     @Id
+    @Column(name = "referee_schedule_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "referee_id")
-    private User referee;
 
-    @ManyToOne
+    @Column(name = "referee_id")
+    @JoinColumn(name = "referee_id")
+    private int refereeId;
+
+
+    @Column(name = "match_id")
     @JoinColumn(name = "match_id")
-    private Match match;
+    private int matchId;
 
     // Constructors, getters, setters
 
@@ -28,7 +32,24 @@ public class RefereeSchedule {
         this.id = id;
     }
 
-    public User getReferee() {
+    public int getRefereeId() {
+        return refereeId;
+    }
+
+    public void setRefereeId(int refereeId) {
+        this.refereeId = refereeId;
+    }
+
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
+    }
+
+
+/* public User getReferee() {
         return referee;
     }
 
@@ -42,5 +63,5 @@ public class RefereeSchedule {
 
     public void setMatch(Match match) {
         this.match = match;
-    }
+    }*/
 }

@@ -18,6 +18,10 @@ public class MatchServiceImpl implements MatchService {
         return matchRepository.findAll();
     }
 
+    @Override
+    public Match getMatchById(Integer matchId) {
+        return matchRepository.findById(Long.valueOf(matchId)).orElse(null);
+    }
     // Implement other methods for match management
 }
 

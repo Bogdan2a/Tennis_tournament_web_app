@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Referee Program</title>
+  <title>Referee Dashboard</title>
 </head>
 <body>
-<h1>Your Program</h1>
-<p>Here is your program for upcoming matches:</p>
-<ul>
-  <!-- List of upcoming matches for the referee -->
-  <li>Match 1: [Match Details]</li>
-  <li>Match 2: [Match Details]</li>
-  <!-- Add more matches as needed -->
-</ul>
-<!-- Add any additional content or functionality as required -->
+<h1>Welcome, Referee!</h1>
+<!-- Display the referee's schedule -->
+This is your schedule:
+<br>
+
+<table border="1">
+  <tr>
+    <th>Schedule ID</th>
+    <th>Referee ID</th>
+    <th>Match ID</th>
+    <th>Match Date</th> <!-- New column for match date -->
+  </tr>
+  <!-- Loop through referee schedules and display each match -->
+  <tr th:each="schedule : ${refereeSchedules}">
+    <td th:text="${schedule.id}"></td>
+    <td th:text="${schedule.refereeId}"></td>
+    <td th:text="${schedule.matchId}"></td>
+    <td id="matchDate-[[${schedule.matchId}]]">Loading...</td> <!-- Add id for match date column -->
+  </tr>
+  <!-- End of referee schedule -->
+</table>
+
+<script>
+  // Function to fetch match date based on match ID
+  function fetchMatchDate(matchId) {
+    console.log("blabla")
+    fetch("/api/matches/get_match_by_id/" + matchId)
+            .then(response => {
+              if (response.ok) {
+                return response.json(); // Parse response body as JSON
+              } else {
+                throw new Error('Failed to fetch match details');
+              }
+            })
+            .then(match => {
+              // Display the match date in the corresponding table cell
+              const matchDateCell = document.getElementById(`matchDate-${matchId}`);
+              if (matchDateCell) {
+                matchDateCell.textContent = match.matchDate;
+              }
+            })
+            .catch(error => {
+              console.error(`Error fetching match details for match ID ${matchId}:`, error);
+            });
+  }
+
+  // Entry point
+  document.addEventListener('DOMContentLoaded', () => {
+    const matchCells = document.querySelectorAll('[id^="matchDate-"]');
+    matchCells.forEach(cell => {
+      const matchId = cell.id.split('-')[1];
+      fetchMatchDate(matchId);
+    });
+  });
+</script>
+
 </body>
 </html>

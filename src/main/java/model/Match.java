@@ -6,6 +6,7 @@ import java.util.Date;
 @Entity
 public class Match {
     @Id
+    @Column(name = "match_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,7 +26,8 @@ public class Match {
     @JoinColumn(name = "referee_id")
     private User referee;
 
-    @Column(name = "match_date")
+    @Column(name = "match_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date matchDate;
 
     @Column(name = "match_score")
