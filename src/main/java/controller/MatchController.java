@@ -24,8 +24,8 @@ public class MatchController {
         return ResponseEntity.ok().body(matches);
     }
 
-    @GetMapping("/get_match_by_id")
-    public ResponseEntity<Match> getMatchById(@RequestParam Integer matchId) {
+    @GetMapping("/get_match_by_id/{matchId}")
+    public ResponseEntity<Match> getMatchById(@PathVariable Long matchId) {
         System.out.println("matchController");
         try {
 

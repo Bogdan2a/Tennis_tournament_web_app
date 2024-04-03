@@ -20,7 +20,7 @@ public class RefereeSchedule {
 
     @Column(name = "match_id")
     @JoinColumn(name = "match_id")
-    private int matchId;
+    private Long matchId;
 
     // Constructors, getters, setters
 
@@ -40,11 +40,11 @@ public class RefereeSchedule {
         this.refereeId = refereeId;
     }
 
-    public int getMatchId() {
+    public Long getMatchId() {
         return matchId;
     }
 
-    public void setMatchId(int matchId) {
+    public void setMatchId(Long matchId) {
         this.matchId = matchId;
     }
 

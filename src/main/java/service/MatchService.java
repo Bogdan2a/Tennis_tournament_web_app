@@ -9,7 +9,7 @@ import java.util.List;
 public interface MatchService {
     List<Match> getAllMatches();
 
-    Match getMatchById(Integer matchId);
+    Match getMatchById(Long matchId);
     // Other methods for match management
 }
 

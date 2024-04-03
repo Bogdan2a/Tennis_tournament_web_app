@@ -19,8 +19,8 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public Match getMatchById(Integer matchId) {
-        return matchRepository.findById(Long.valueOf(matchId)).orElse(null);
+    public Match getMatchById(Long matchId) {
+        return matchRepository.findById(matchId).orElse(null);
     }
     // Implement other methods for match management
 }
