@@ -24,17 +24,18 @@ public class MatchController {
         return ResponseEntity.ok().body(matches);
     }
 
+
+
     @GetMapping("/get_match_by_id/{matchId}")
     public ResponseEntity<Match> getMatchById(@PathVariable Long matchId) {
-        System.out.println("matchController");
+       // System.out.println("matchController");
         try {
-
             Match match = matchService.getMatchById(matchId);
-            System.out.println(match.getMatchDate());
-            System.out.println("intru aici");
+           // System.out.println(match.getMatchDate());
+           // System.out.println("intru aici");
             return ResponseEntity.ok(match);
         } catch (Exception e) {
-            System.out.println("intru exception");
+          //  System.out.println("intru exception");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Referee Dashboard</title>
 </head>
@@ -21,20 +21,26 @@ This is your schedule:
     <td th:text="${schedule.id}"></td>
     <td th:text="${schedule.refereeId}"></td>
     <td th:text="${schedule.matchId}"></td>
-    localstorage.setItem("matchId", schedule.matchId);
-    <td id="matchDate-[[${schedule.matchId}]]"></td> <!-- Add id for match date column -->
+    <td th:id="'matchDate-' + ${schedule.matchId}" th:data-match-id="${schedule.matchId}"></td> <!-- Add Thymeleaf expressions for match ID -->
   </tr>
+
   <!-- End of referee schedule -->
 </table>
 
-<script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  // Function to fetch match date based on match ID
+  // Function to format the date in the specified format
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+    return date.toLocaleString('ro-RO', options);
+  }
+
   // Function to fetch match date based on match ID
   function fetchMatchDate(matchId) {
-    console.log("blabla")
     fetch("/api/matches/get_match_by_id/" + matchId)
             .then(response => {
-              console.log("dddd")
-              console.log(matchId)
               if (response.ok) {
                 return response.json(); // Parse response body as JSON
               } else {
@@ -42,10 +48,10 @@ This is your schedule:
               }
             })
             .then(match => {
-              // Display the match date in the corresponding table cell
-              const matchDateCell = document.getElementById(`matchDate-${matchId}`);
+              // Display the formatted match date in the corresponding table cell
+              const matchDateCell = document.getElementById("matchDate-" + matchId);
               if (matchDateCell) {
-                matchDateCell.textContent = match.matchDate;
+                matchDateCell.textContent = formatDate(match.matchDate);
               }
             })
             .catch(error => {
@@ -54,16 +60,14 @@ This is your schedule:
   }
 
   // Entry point
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', function() {
     const matchCells = document.querySelectorAll('[id^="matchDate-"]');
-    console.log(matchCells)
-    matchCells.forEach(cell => {
-      console.log(cell)
-      const matchId = localStorage.getItem("matchId")
-      console.log("in listener " + matchId)
+    matchCells.forEach(function(cell) {
+      var matchId = cell.getAttribute("data-match-id"); // Retrieve match ID from data attribute
       fetchMatchDate(matchId);
     });
   });
+  /*]]>*/
 </script>
 
 </body>

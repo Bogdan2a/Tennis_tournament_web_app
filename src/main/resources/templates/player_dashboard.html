@@ -10,11 +10,11 @@
 <p id="greetingMessage"></p>
 
 <!--
-<img class="img-fluid" src="https://cdn.discordapp.com/attachments/1064630844024692820/1222643910208127057/New_Bitmap_Image_2.bmp?ex=6616f6df&is=660481df&hm=c6fc68ecc25b041549d7337860ceb2669f61f3dae1ba8e9b1f0d753135656e3a&" alt="">
+<img clasds="img-fluid" src="https://cdn.discordapp.com/attachments/1064630844024692820/1222643910208127057/New_Bitmap_Image_2.bmp?ex=6616f6df&is=660481df&hm=c6fc68ecc25b041549d7337860ceb2669f61f3dae1ba8e9b1f0d753135656e3a&" alt="">
 -->
 
 <ul>
-  <li><a href="/templates/tournament_registration.html">Tournament Registration</a></li>
+  <li><a href='/api/api/tournaments/tournament_registration.html' id="tournamentRegistrationLink">Tournament Registration</a></li>
   <li><a href="/templates/schedule.html">View Tour Schedule</a></li>
   <li><a href="/templates/match_score.html">View Match Score</a></li>
   <li><a href='/api/users/update_account.html' id="updateAccountLink">Update Account Information</a></li>
@@ -53,6 +53,16 @@
 
     // Redirect to the update account page
     window.location.href = updateAccountUrl;
+  });
+  // Add event listener to the update account link
+  document.getElementById("tournamentRegistrationLink").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    // Construct the URL for updating account information
+    var tournamentRegisterUrl = '/api/tournaments/tournament_registration.html?userId=' + userId;
+
+    // Redirect to the update account page
+    window.location.href = tournamentRegisterUrl;
   });
 </script>
 

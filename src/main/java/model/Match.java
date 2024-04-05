@@ -1,9 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
+@Table(name = "matches")
 public class Match {
     @Id
     @Column(name = "match_id")
@@ -89,5 +92,10 @@ public class Match {
 
     public void setMatchScore(String matchScore) {
         this.matchScore = matchScore;
+    }
+
+    public String formattedMatchDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mma");
+        return sdf.format(matchDate);
     }
 }

@@ -1,18 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Tournament Registration</title>
+  <script th:inline="javascript">
+    function registerUserForTournament() {
+      // Retrieve user ID from URL
+      const userId = new URLSearchParams(window.location.search).get('userId');
+      // Retrieve selected tournament ID from the dropdown
+      const tournamentId = document.getElementById('tournamentIdSelect').value;
+      // Send a POST request to register the user for the tournament
+      fetch(`/api/user_tournaments/register?userId=${userId}&tournamentId=${tournamentId}`, {
+        method: 'POST',
+      })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Failed to register user for tournament');
+                }
+                alert('User registered for tournament successfully!');
+              })
+              .catch(error => {
+                console.error('Error registering user for tournament:', error);
+                alert('Failed to register user for tournament. Please try again later.');
+              });
+    }
+  </script>
 </head>
 <body>
 <h1>Tournament Registration</h1>
-<!-- Form for tournament registration -->
-<form action="/tournament/register" method="post">
-  <!-- Include fields for tournament registration -->
-  <!-- For example: -->
-  <label for="tournamentName">Tournament Name:</label><br>
-  <input type="text" id="tournamentName" name="tournamentName" required><br>
-  <!-- Additional fields as required -->
-  <button type="submit">Register</button>
-</form>
+<!-- Table to display tournament information -->
+<table border="1">
+  <tr>
+    <th>Tournament ID</th>
+    <th>Name</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+  </tr>
+  <!-- Loop through tournaments and display each tournament's information -->
+  <tr th:each="tournament : ${tournaments}">
+    <td th:text="${tournament.id}"></td>
+    <td th:text="${tournament.name}"></td>
+    <td th:text="${#dates.format(tournament.startDate, 'dd.MM.yyyy')}"></td>
+    <td th:text="${#dates.format(tournament.endDate, 'dd.MM.yyyy')}"></td>
+  </tr>
+  <!-- End of tournament information -->
+</table>
+
+<!-- Dropdown to select tournament ID -->
+<label for="tournamentIdSelect">Select Tournament ID:</label>
+<select id="tournamentIdSelect">
+  <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.id}"></option>
+</select>
+
+<!-- Button to register user for selected tournament -->
+<button onclick="registerUserForTournament()">Register for Tournament</button>
+
 </body>
 </html>

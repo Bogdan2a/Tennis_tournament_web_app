@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "tournaments")
 public class Tournament {
     @Id
+    @Column(name = "tournament_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "tournament_name")
     private String name;
 
     @Column(name = "start_date")

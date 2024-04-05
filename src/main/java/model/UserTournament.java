@@ -8,18 +8,20 @@ import java.util.Date;
 @Entity
 @Table(name = "user_tournaments")
 public class UserTournament {
+
     @jakarta.persistence.Id
     @Id
+    @Column(name = "user_tournament_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Long userId;
+
+
     @JoinColumn(name = "tournament_id")
-    private Tournament tournament;
+    private Long tournamentId;
 
     // Constructors, getters, setters
 
@@ -31,20 +33,19 @@ public class UserTournament {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Tournament getTournament() {
-        return tournament;
+    public Long getTournamentId() {
+        return tournamentId;
     }
 
-    public void setTournament(Tournament tournament) {
-        this.tournament = tournament;
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
     }
-
 }
