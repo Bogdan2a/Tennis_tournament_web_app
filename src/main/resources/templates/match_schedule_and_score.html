@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Match Details</title>
+</head>
+<body>
+<h1>Matchesc Schedule & Scores</h1>
+<!-- Table to display match information -->
+<table border="1">
+  <tr>
+    <th>Match ID</th>
+    <th>Tournament ID</th>
+    <th>Date</th>
+    <th>Score</th>
+  </tr>
+  <!-- Loop through users and display each user's information -->
+  <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
+  <!-- Use Thymeleaf to iterate over the list of users -->
+  <tr th:each="match : ${matches}">
+    <td th:text="${match.id}"></td>
+    <td th:text="${match.tournamentId}"></td>
+    <td th:text="${#dates.format(match.matchDate, 'dd.MM.yyyy hh:mm')}"></td>
+    <td th:text="${match.matchScore}"></td>
+  </tr>
+  <!-- End of user information -->
+</table>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package controller;
 
 import model.User;
+import org.example.assignment1.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     public String home() {
         return "index"; // Return the view name
     }*/
-
+    private Encoder encoder = Encoder.getInstance();
     @Autowired
     private UserService userService;
 
@@ -40,6 +41,8 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         try {
+            // Encode the user's password before saving to the database
+            user.setPassword(Encoder.encodingPassword(user.getPassword()));
             userService.registerUser(user);
             return ResponseEntity.ok("User registered successfully");
         } catch (Exception e) {
@@ -56,7 +59,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         // Validate user credentials
-        boolean isValidUser = userService.validateUserCredentials(user.getUsername(), user.getPassword());
+        boolean isValidUser = userService.validateUserCredentials(user.getUsername(), Encoder.encodingPassword(user.getPassword()));
         if (isValidUser) {
             // Perform login logic (e.g., generate token, store in session)
             String token = userService.loginUser(user);
@@ -110,7 +113,9 @@ public class UserController {
     @GetMapping("/create_user.html")
     public String showCreateUser(Model model) {
         List<User> users = userService.getAllUsers();
-
+        for (User user : users) {
+            System.out.println(user.getId());
+        }
         // Add the list of users to the model
         model.addAttribute("users", users);
         return "create_user"; // Return the name of the HTML file (without the extension)
@@ -118,7 +123,11 @@ public class UserController {
     @PostMapping("/create_user")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         try {
+            user.setPassword(Encoder.encodingPassword(user.getPassword()));
             userService.createUser(user);
+
+            System.out.println(user.getUsername());
+            System.out.println(user.getPassword());
             return ResponseEntity.ok("User created successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user: " + e.getMessage());
@@ -133,7 +142,10 @@ public class UserController {
     @PutMapping("/update_user/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody User user) {
         try {
+            user.setPassword(Encoder.encodingPassword(user.getPassword()));
             userService.updateUser(userId, user);
+
+            System.out.println(user.getPassword());
             return ResponseEntity.ok("User updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update user: " + e.getMessage());
@@ -175,7 +187,10 @@ public class UserController {
     public String showUpdateAccountForm(@RequestParam Long userId, Model model) {
         // Fetch the user based on the userId
         User user = userService.getUserById(userId);
-
+        System.out.println(user.getId());
+        System.out.println(user.getPassword());
+        user.setPassword(Encoder.decodingPassword(user.getPassword()));
+        System.out.println(user.getPassword());
         // Add the user to the model
         model.addAttribute("user", user);
 
@@ -194,7 +209,7 @@ public class UserController {
                 existingUser.setUsername(user.getUsername());
             }
             if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-                existingUser.setPassword(user.getPassword());
+                existingUser.setPassword(Encoder.encodingPassword(user.getPassword()));
             }
             if (user.getEmail() != null && !user.getEmail().isEmpty()) {
                 existingUser.setEmail(user.getEmail());

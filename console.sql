@@ -29,8 +29,8 @@ CREATE TABLE tournaments (
 CREATE TABLE matches (
     match_id INT AUTO_INCREMENT PRIMARY KEY,
     tournament_id INT,
-    player1_id INT,
-    player2_id INT,
+    player1_id INT NOT NULL,
+    player2_id INT NOT NULL,
     referee_id INT,
     match_date DATETIME NOT NULL,
     match_score VARCHAR(20),

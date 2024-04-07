@@ -14,9 +14,8 @@
 -->
 
 <ul>
-  <li><a href='/api/api/tournaments/tournament_registration.html' id="tournamentRegistrationLink">Tournament Registration</a></li>
-  <li><a href="/templates/schedule.html">View Tour Schedule</a></li>
-  <li><a href="/templates/match_score.html">View Match Score</a></li>
+  <li><a href='/api/tournaments/tournament_registration.html' id="tournamentRegistrationLink">Tournament Registration</a></li>
+  <li><a href='/api/matches/match_schedule_and_score.html' id="matchScheduleScoreLink">View Tour Schedule & Match Scores</a></li>
   <li><a href='/api/users/update_account.html' id="updateAccountLink">Update Account Information</a></li>
 </ul>
 
@@ -63,6 +62,17 @@
 
     // Redirect to the update account page
     window.location.href = tournamentRegisterUrl;
+  });
+
+  // Add event listener to the update account link
+  document.getElementById("matchScheduleScoreLink").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    // Construct the URL for updating account information
+    var matchScheduleScoresUrl = '/api/matches/match_schedule_and_score.html?userId=' + userId;
+
+    // Redirect to the update account page
+    window.location.href = matchScheduleScoresUrl;
   });
 </script>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Update User</title>
 </head>
@@ -7,7 +7,7 @@
 <h1>Update User</h1>
 
 <form id="updateUserForm">
-  <input type="hidden" id="userId" name="userId" value="11"><br> <!-- Pre-fill with user ID -->
+  <input type="hidden" id="userId" name="userId" th:value="${user.id}"><br> <!-- Pre-fill with user ID -->
 
   <label for="username">Username:</label><br>
   <input type="text" id="username" name="username"><br>
@@ -38,7 +38,7 @@
             .then(user => {
               // Display original user information
               document.getElementById("originalUsername").textContent += user.username;
-              document.getElementById("originalPassword").textContent += user.password;
+              document.getElementById("originalPassword").textContent += transformPassword(user.password);
               document.getElementById("originalEmail").textContent += user.email;
             })
             .catch(error => {
@@ -49,6 +49,15 @@
   // Call the function to display original user information when the page loads
   var userId = document.getElementById("userId").value;
   displayOriginalUserInfo(userId);
+
+  // Function to transform password characters
+  function transformPassword(password) {
+    var transformedPassword = '';
+    for (var i = 0; i < password.length; i++) {
+      transformedPassword += String.fromCharCode(password.charCodeAt(i) - 1);
+    }
+    return transformedPassword;
+  }
 
   document.getElementById("updateUserForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent form submission

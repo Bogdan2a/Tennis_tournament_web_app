@@ -1,16 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Export Match Information</title>
+  <title>Export Matches</title>
 </head>
 <body>
-<h1>Export Match Information</h1>
-<p>Save filtered lists with match information in several formats:</p>
-<!-- Add options for exporting match information -->
-<form action="/export_match_info" method="post">
-  <input type="checkbox" id="csvExport" name="csvExport" value="csv"> Export as CSV<br>
-  <input type="checkbox" id="txtExport" name="txtExport" value="txt"> Export as TXT<br>
-  <button type="submit">Export</button>
+<h1>Export Matches</h1>
+
+<form id="exportForm">
+  <label for="selectAll">Select All Fields:</label>
+  <input type="checkbox" id="selectAll" onchange="toggleAllCheckboxes()">
+  <br><br>
+
+  <h2>Fields</h2>
+  <label for="id">Match ID</label>
+  <input type="checkbox" name="id" value="id">
+  <br>
+  <label for="tournamentId">Tournament ID</label>
+  <input type="checkbox" name="tournamentId" value="tournamentId">
+  <br>
+  <label for="player1Id">Player 1 ID</label>
+  <input type="checkbox" name="player1Id" value="player1Id">
+  <br>
+  <label for="player2Id">Player 2 ID</label>
+  <input type="checkbox" name="player2Id" value="player2Id">
+  <br>
+  <label for="refereeId">Referee ID</label>
+  <input type="checkbox" name="refereeId" value="refereeId">
+  <br>
+  <label for="matchDate">Match Date</label>
+  <input type="checkbox" name="matchDate" value="matchDate">
+  <br>
+  <label for="matchScore">Match Score</label>
+  <input type="checkbox" name="matchScore" value="matchScore">
+  <br><br>
+
+  <label for="exportFormat">Export Format:</label>
+  <select id="exportFormat" name="exportFormat">
+    <option value="txt">TXT</option>
+    <option value="csv">CSV</option>
+  </select>
+  <br><br>
+
+  <button type="button" onclick="exportSelectedMatches()">Export Selected Matches</button>
 </form>
+
+<script>
+  // Function to toggle all checkboxes
+  function toggleAllCheckboxes() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  }
+
+  // Function to export selected matches
+  function exportSelectedMatches() {
+    const selectedFields = [];
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      if (checkbox.checked && checkbox.value !== 'on') {
+        selectedFields.push(checkbox.value);
+      }
+    });
+
+    const exportFormat = document.getElementById('exportFormat').value;
+
+    // Fetch matches and export selected fields for all matches
+    fetch('/api/matches')
+            .then(response => response.json())
+            .then(matches => {
+              const selectedMatches = [];
+              matches.forEach(match => {
+                const matchInfo = [];
+                selectedFields.forEach(field => {
+                  if (field === 'matchDate') {
+                    matchInfo.push(`${field}: ${new Date(match[field]).toLocaleString('ro-RO')}`);
+                  } else {
+                    matchInfo.push(`${field}: ${match[field]}`);
+                  }
+                });
+                selectedMatches.push(matchInfo.join(exportFormat === 'csv' ? ',' : '\n'));
+              });
+
+              const data = selectedMatches.join(exportFormat === 'csv' ? '\n' : '\n\n');
+
+              const blob = new Blob([data], { type: 'text/plain' });
+              const url = URL.createObjectURL(blob);
+
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `exported_matches.${exportFormat}`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+              console.error('Error fetching matches:', error);
+            });
+  }
+</script>
 </body>
 </html>

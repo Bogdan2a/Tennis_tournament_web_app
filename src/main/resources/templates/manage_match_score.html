@@ -5,12 +5,116 @@
 </head>
 <body>
 <h1>Manage Match Score</h1>
-<!-- Form to manage match score -->
-<!-- Include fields for managing match score -->
-<!-- For example: -->
-<form action="/match/score/manage" method="post">
-  <!-- Include fields like match ID, score, etc. -->
-  <button type="submit">Submit Score</button>
+
+<form id="updateScoreForm">
+  <!-- Dropdown to select match ID -->
+  <label for="matchIdSelect">Select Match ID:</label>
+  <select id="matchIdSelect"></select><br>
+
+  <!-- Input fields for score -->
+  <label for="score">Score:</label>
+  <input type="text" id="score1" name="score1" maxlength="1" size="1">
+  -
+  <input type="text" id="score2" name="score2" maxlength="1" size="1">
+  ,
+  <input type="text" id="score3" name="score3" maxlength="1" size="1">
+  -
+  <input type="text" id="score4" name="score4" maxlength="1" size="1">
+  <br>
+
+  <!-- Button to update score -->
+  <button type="button" onclick="updateMatchScore()">Update Score</button>
 </form>
+
+<p id="message" style="color: red;"></p>
+
+<!-- Display all matches -->
+<table border="1">
+  <thead>
+  <tr>
+    <th>Match ID</th>
+    <th>Score</th>
+  </tr>
+  </thead>
+  <tbody id="matchesTableBody"></tbody>
+</table>
+
+<script>
+  // Retrieve user ID from URL
+  const userId = new URLSearchParams(window.location.search).get('userId');
+  console.log(userId);
+  // Function to populate the dropdown and table
+  function populateDropdownAndTable() {
+    // Fetch matches data
+    fetch('/api/matches')
+            .then(response => response.json())
+            .then(matches => {
+              // Clear existing options in the dropdown
+              const dropdown = document.getElementById('matchIdSelect');
+              dropdown.innerHTML = '';
+
+              // Populate the dropdown and table
+              matches.forEach(match => {
+                console.log(match.refereeId + "==" + userId)
+                if (match.refereeId === parseInt(userId)) {
+                  console.log("enter here")
+                  const option = document.createElement('option');
+                  option.value = match.id;
+                  option.text = match.id;
+                  dropdown.appendChild(option);
+
+                  const row = document.createElement('tr');
+                  const idCell = document.createElement('td');
+                  idCell.textContent = match.id;
+                  const scoreCell = document.createElement('td');
+                  scoreCell.textContent = match.matchScore;
+                  console.log(match.matchScore+ "test")
+                  row.appendChild(idCell);
+                  row.appendChild(scoreCell);
+                  document.getElementById('matchesTableBody').appendChild(row);
+                }
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching matches:', error);
+            });
+  }
+
+  // Call the function to populate dropdown and table initially
+  populateDropdownAndTable();
+
+  // Function to update match score
+  function updateMatchScore() {
+    // Retrieve selected match ID from the dropdown
+    const matchId = document.getElementById('matchIdSelect').value;
+    // Retrieve score from input fields
+    const score1 = document.getElementById('score1').value;
+    const score2 = document.getElementById('score2').value;
+    const score3 = document.getElementById('score3').value;
+    const score4 = document.getElementById('score4').value;
+    const score = `${score1}-${score2}, ${score3}-${score4}`;
+
+    // Send a POST request to update the match score
+    fetch(`/api/matches/update_score?userId=${userId}&matchId=${matchId}&score=${score}`, {
+      method: 'POST',
+    })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Failed to update match score');
+              }
+              return response.text(); // Success message
+            })
+            .then(message => {
+              document.getElementById("message").textContent = message;
+              // After updating, repopulate dropdown and table
+              populateDropdownAndTable();
+            })
+            .catch(error => {
+              console.error('Error updating match score:', error);
+              document.getElementById("message").textContent = 'Failed to update match score. Please try again later.';
+            });
+  }
+</script>
+
 </body>
 </html>

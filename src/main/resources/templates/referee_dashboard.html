@@ -18,7 +18,7 @@
 <!--
   <li><a th:href="@{/api/referee_schedules/referee_own_program.html(userId=${userId})}">View Own Program by Deea Cratza</a></li>
 -->
-  <li><a href="/templates/manage_match_score.html">Manage Match Score</a></li>
+  <li><a href='/api/matches/manage_match_score.html' id="manageScoreUrl">Manage Match Scores</a></li>
   <li><a href='/api/users/update_account.html' id="updateAccountLink">Update Account Information</a></li>
 </ul>
 
@@ -64,6 +64,16 @@
     var ownScheduleUrl = '/api/referee-schedules/referee_own_program.html?userId=' + userId;
     // Redirect to the own schedule page
     window.location.href = ownScheduleUrl;
+  });
+
+  // Add event listener to the own schedule link
+  document.getElementById("manageScoreUrl").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default link behavior
+
+    // Construct the URL for viewing the referee's own program
+    var manageScoreUrl = '/api/matches/manage_match_score.html?userId=' + userId;
+    // Redirect to the own schedule page
+    window.location.href = manageScoreUrl;
   });
 </script>
 

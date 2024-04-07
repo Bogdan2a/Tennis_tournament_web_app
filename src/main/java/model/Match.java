@@ -13,21 +13,20 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+
     @JoinColumn(name = "tournament_id")
-    private Tournament tournament;
+    private Long tournamentId;
 
-    @ManyToOne
+
     @JoinColumn(name = "player1_id")
-    private User player1;
+    private Long player1Id;
 
-    @ManyToOne
+
     @JoinColumn(name = "player2_id")
-    private User player2;
+    private Long player2Id;
 
-    @ManyToOne
     @JoinColumn(name = "referee_id")
-    private User referee;
+    private Long refereeId;
 
     @Column(name = "match_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,6 +37,19 @@ public class Match {
 
     // Constructors, getters, setters
 
+public Match() {
+    }
+
+    public Match(Long id, Long tournamentId, Long player1Id, Long player2Id, Long refereeId, Date matchDate, String matchScore) {
+        this.id = id;
+        this.tournamentId = tournamentId;
+        this.player1Id = player1Id;
+        this.player2Id = player2Id;
+        this.refereeId = refereeId;
+        this.matchDate = matchDate;
+        this.matchScore = matchScore;
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,36 +58,36 @@ public class Match {
         this.id = id;
     }
 
-    public Tournament getTournament() {
-        return tournament;
+    public Long getTournamentId() {
+        return tournamentId;
     }
 
-    public void setTournament(Tournament tournament) {
-        this.tournament = tournament;
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
     }
 
-    public User getPlayer1() {
-        return player1;
+    public Long getPlayer1Id() {
+        return player1Id;
     }
 
-    public void setPlayer1(User player1) {
-        this.player1 = player1;
+    public void setPlayer1Id(Long player1Id) {
+        this.player1Id = player1Id;
     }
 
-    public User getPlayer2() {
-        return player2;
+    public Long getPlayer2Id() {
+        return player2Id;
     }
 
-    public void setPlayer2(User player2) {
-        this.player2 = player2;
+    public void setPlayer2Id(Long player2Id) {
+        this.player2Id = player2Id;
     }
 
-    public User getReferee() {
-        return referee;
+    public Long getRefereeId() {
+        return refereeId;
     }
 
-    public void setReferee(User referee) {
-        this.referee = referee;
+    public void setRefereeId(Long refereeId) {
+        this.refereeId = refereeId;
     }
 
     public Date getMatchDate() {
