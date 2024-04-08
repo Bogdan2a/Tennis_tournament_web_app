@@ -13,15 +13,6 @@ public class RefereeScheduleServiceImpl implements RefereeScheduleService {
     @Autowired
     private RefereeScheduleRepository refereeScheduleRepository;
 
-    @Override
-    public List<RefereeSchedule> getAllRefereeSchedules() {
-        return refereeScheduleRepository.findAll();
-    }
-
-    @Override
-    public void addRefereeSchedule(RefereeSchedule refereeSchedule) {
-        refereeScheduleRepository.save(refereeSchedule);
-    }
 
     @Override
     public List<RefereeSchedule> getRefereeSchedulesByRefereeId(Long refereeId) {

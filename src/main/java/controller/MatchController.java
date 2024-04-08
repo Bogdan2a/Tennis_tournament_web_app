@@ -76,8 +76,8 @@ public class MatchController {
         List<Match> matches = matchService.getAllMatches();
         for (Match match : matches) {
             System.out.println(match.getId());
-            System.out.println(match.getPlayer1Id());
-            System.out.println(match.getPlayer2Id());
+            System.out.println(match.getPlayer1_id());
+            System.out.println(match.getPlayer2_id());
             System.out.println();
 
         }

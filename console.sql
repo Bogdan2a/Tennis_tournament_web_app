@@ -58,16 +58,16 @@ CREATE TABLE referee_schedule (
 
 -- Populate users table
 INSERT INTO users (username, password, email, role) VALUES
-('johnD', 'hashedPass1', 'john@example.com', 'PLAYER'),
-('aliceS', 'hashedPass2', 'alice@example.com', 'REFEREE'),
-('admin1', 'hashedPass3', 'admin@example.com', 'ADMIN'),
-('sarahT', 'hashedPass4', 'sarah@example.com', 'PLAYER'),
-('referee2', 'hashedPass5', 'referee2@example.com', 'REFEREE');
+('johnD', '234', 'john@example.com', 'PLAYER'),
+('aliceS', '234', 'alice@example.com', 'REFEREE'),
+('admin1', '234', 'admin@example.com', 'ADMIN'),
+('sarahT', '234', 'sarah@example.com', 'PLAYER'),
+('referee2', '234', 'referee2@example.com', 'REFEREE');
 INSERT INTO users (username, password, email, role) VALUES
-('user1', 'user1', 'test@test.com', 'PLAYER');
+('user1', '234', 'test@test.com', 'PLAYER');
 INSERT INTO users (username, password, email, role) VALUES
-('ref1', 'ref1', 'test1@test.com', 'REFEREE'),
-('admin2', 'admin2', 'test2@test.com', 'ADMIN');
+('ref1', '234', 'test1@test.com', 'REFEREE'),
+('admin2', '234', 'test2@test.com', 'ADMIN');
 
 
 -- Populate tournaments table
@@ -85,6 +85,8 @@ INSERT INTO matches (tournament_id, player1_id, player2_id, referee_id, match_da
 (2, 1, 5, 3, '2024-05-28 11:00:00', '6-3, 7-5'),
 (3, 2, 4, 4, '2024-07-05 14:00:00', '7-5, 6-4'),
 (4, 3, 4, 5, '2024-08-30 12:00:00', '6-4, 6-2');
+
+
 
 -- Populate user_tournaments table
 INSERT INTO user_tournaments (user_id, tournament_id) VALUES

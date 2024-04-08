@@ -49,19 +49,4 @@ public class RefereeSchedule {
     }
 
 
-/* public User getReferee() {
-        return referee;
-    }
-
-    public void setReferee(User referee) {
-        this.referee = referee;
-    }
-
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }*/
 }

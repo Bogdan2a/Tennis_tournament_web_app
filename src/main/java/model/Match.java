@@ -18,12 +18,11 @@ public class Match {
     private Long tournamentId;
 
 
-    @JoinColumn(name = "player1_id")
-    private Long player1Id;
+    @JoinColumn(name = "player1_id", referencedColumnName = "user_id", nullable = false)
+    private Long player1_id;
 
-
-    @JoinColumn(name = "player2_id")
-    private Long player2Id;
+    @JoinColumn(name = "player2_id", referencedColumnName = "user_id", nullable = false)
+    private Long player2_id;
 
     @JoinColumn(name = "referee_id")
     private Long refereeId;
@@ -37,18 +36,6 @@ public class Match {
 
     // Constructors, getters, setters
 
-public Match() {
-    }
-
-    public Match(Long id, Long tournamentId, Long player1Id, Long player2Id, Long refereeId, Date matchDate, String matchScore) {
-        this.id = id;
-        this.tournamentId = tournamentId;
-        this.player1Id = player1Id;
-        this.player2Id = player2Id;
-        this.refereeId = refereeId;
-        this.matchDate = matchDate;
-        this.matchScore = matchScore;
-    }
 
     public Long getId() {
         return id;
@@ -66,20 +53,20 @@ public Match() {
         this.tournamentId = tournamentId;
     }
 
-    public Long getPlayer1Id() {
-        return player1Id;
+    public Long getPlayer1_id() {
+        return player1_id;
     }
 
-    public void setPlayer1Id(Long player1Id) {
-        this.player1Id = player1Id;
+    public void setPlayer1_id(Long player1_id) {
+        this.player1_id = player1_id;
     }
 
-    public Long getPlayer2Id() {
-        return player2Id;
+    public Long getPlayer2_id() {
+        return player2_id;
     }
 
-    public void setPlayer2Id(Long player2Id) {
-        this.player2Id = player2Id;
+    public void setPlayer2_id(Long player2_id) {
+        this.player2_id = player2_id;
     }
 
     public Long getRefereeId() {

@@ -37,14 +37,4 @@ public class Encoder {
         return decodedPassword.toString();
     }
 
-    // Method to convert date string to timestamp
-    public Timestamp convertToTimestamp(String dateString) {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date parsedDate = dateFormat.parse(dateString);
-            return new Timestamp(parsedDate.getTime());
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Invalid date format: " + dateString);
-        }
-    }
 }

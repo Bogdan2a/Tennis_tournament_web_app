@@ -21,12 +21,6 @@ public class RefereeScheduleController {
     @Autowired
     private RefereeScheduleService refereeScheduleService;
 
-    /*@GetMapping
-    public ResponseEntity<List<RefereeSchedule>> getAllRefereeSchedules() {
-        List<RefereeSchedule> refereeSchedules = refereeScheduleService.getAllRefereeSchedules();
-        return ResponseEntity.ok().body(refereeSchedules);
-    }*/
-
     @GetMapping("/referee_own_program.html")
     public String showRefereeOwnProgram(@RequestParam Long userId, Model model) {
 

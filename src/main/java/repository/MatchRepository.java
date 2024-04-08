@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
-    @Query("SELECT m.player1Id FROM Match m WHERE m.id = :matchId")
-    Long getPlayer1IdbyMatchId(Long matchId);
+
 
 }

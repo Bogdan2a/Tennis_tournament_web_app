@@ -15,8 +15,8 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<Match> getAllMatches() {
-        System.out.println(matchRepository.findAll().get(0).getPlayer1Id());
-        System.out.println(matchRepository.getPlayer1IdbyMatchId(matchRepository.findAll().get(0).getId()));
+       // System.out.println(matchRepository.findAll().get(0).getPlayer1_id());
+       // System.out.println(matchRepository.getPlayer1IdbyMatchId(matchRepository.findAll().get(0).getId()));
         return matchRepository.findAll();
     }
 
