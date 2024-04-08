@@ -18,10 +18,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users")
 public class UserController {
 
-    /*@GetMapping("/")
-    public String home() {
-        return "index"; // Return the view name
-    }*/
     private Encoder encoder = Encoder.getInstance();
     @Autowired
     private UserService userService;
@@ -53,21 +49,19 @@ public class UserController {
 
     @GetMapping("/login.html")
     public String showLoginPage() {
-        return "login"; // Return the name of the HTML file (without the extension)
+        return "login";
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
-        // Validate user credentials
         boolean isValidUser = userService.validateUserCredentials(user.getUsername(), Encoder.encodingPassword(user.getPassword()));
         if (isValidUser) {
-            // Perform login logic (e.g., generate token, store in session)
+
             String token = userService.loginUser(user);
-            // Retrieve user role and ID
+
             String userRole = userService.getUserRole(user.getUsername());
             Long userId = userService.getUserIdByUsername(user.getUsername());
 
-            // Redirect to the appropriate dashboard based on user role
             String dashboardUrl;
             if ("TENNIS_PLAYER".equals(userRole)) {
                 dashboardUrl = "/api/users/player_dashboard.html?userId=" + userId;
@@ -76,12 +70,10 @@ public class UserController {
             } else if ("ADMIN".equals(userRole)) {
                 dashboardUrl = "/api/users/admin_dashboard.html?userId=" + userId;
             } else {
-                // Default dashboard for unknown roles
                 dashboardUrl = "/api/users/player_dashboard.html?userId=" + userId;
             }
             return ResponseEntity.status(HttpStatus.OK).body(dashboardUrl);
         } else {
-            // User authentication failed
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
@@ -89,25 +81,23 @@ public class UserController {
 
     @GetMapping("/player_dashboard.html")
     public String showPlayerDashboard() {
-        return "player_dashboard"; // Return the name of the HTML file (without the extension)
+        return "player_dashboard";
     }
     @GetMapping("/referee_dashboard.html")
     public String showRefereeDashboard() {
-        return "referee_dashboard"; // Return the name of the HTML file (without the extension)
+        return "referee_dashboard";
     }
     @GetMapping("/admin_dashboard.html")
     public String showAdminDashboard() {
-        return "admin_dashboard"; // Return the name of the HTML file (without the extension)
+        return "admin_dashboard";
     }
     @GetMapping("/admin_user_management.html")
     public String showAdminUserManagement(Model model) {
         // Fetch all users from the database
         List<User> users = userService.getAllUsers();
 
-        // Add the list of users to the model
         model.addAttribute("users", users);
 
-        // Return the name of the HTML file
         return "admin_user_management";
     }
     @GetMapping("/create_user.html")
@@ -116,9 +106,8 @@ public class UserController {
         for (User user : users) {
             System.out.println(user.getId());
         }
-        // Add the list of users to the model
         model.addAttribute("users", users);
-        return "create_user"; // Return the name of the HTML file (without the extension)
+        return "create_user";
     }
     @PostMapping("/create_user")
     public ResponseEntity<String> createUser(@RequestBody User user) {

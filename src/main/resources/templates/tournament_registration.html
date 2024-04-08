@@ -27,7 +27,6 @@
 </head>
 <body>
 <h1>Tournament Registration</h1>
-<!-- Table to display tournament information -->
 <table border="1">
   <tr>
     <th>Tournament ID</th>
@@ -35,23 +34,20 @@
     <th>Start Date</th>
     <th>End Date</th>
   </tr>
-  <!-- Loop through tournaments and display each tournament's information -->
+
   <tr th:each="tournament : ${tournaments}">
     <td th:text="${tournament.id}"></td>
     <td th:text="${tournament.name}"></td>
     <td th:text="${#dates.format(tournament.startDate, 'dd.MM.yyyy')}"></td>
     <td th:text="${#dates.format(tournament.endDate, 'dd.MM.yyyy')}"></td>
   </tr>
-  <!-- End of tournament information -->
 </table>
 
-<!-- Dropdown to select tournament ID -->
 <label for="tournamentIdSelect">Select Tournament ID:</label>
 <select id="tournamentIdSelect">
   <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.id}"></option>
 </select>
 
-<!-- Button to register user for selected tournament -->
 <button onclick="registerUserForTournament()">Register for Tournament</button>
 
 </body>

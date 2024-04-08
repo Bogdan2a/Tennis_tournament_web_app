@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface RefereeScheduleRepository extends JpaRepository<RefereeSchedule, Long> {
     List<RefereeSchedule> findByRefereeId(Long refereeId);
-    // You can add custom methods for specific queries if needed
+
 }
 

@@ -11,6 +11,6 @@ public interface UserTournamentService {
     void registerUserForTournament(Long userId, Long tournamentId);
 
     boolean isUserRegisteredForTournament(Long userId, Long tournamentId);
-    // Other methods for user tournament management
+
 }
 

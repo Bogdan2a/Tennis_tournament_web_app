@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
 
-
 }

@@ -8,6 +8,7 @@
 <h2>Tournaments</h2>
 <ul id="tournamentList"></ul>
 <script>
+
     fetch('/api/tournaments')
         .then(response => response.json())
         .then(data => {

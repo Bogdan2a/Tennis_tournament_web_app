@@ -18,7 +18,6 @@
 <p id="message" style="color: red;"></p>
 
 <script>
-    // Fetch user IDs from the backend and populate the dropdown
     fetch("/api/users/all")
         .then(response => response.json())
         .then(users => {
@@ -35,12 +34,10 @@
         });
 
     document.getElementById("deleteUserForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
 
-        // Get selected user ID
         var userId = document.getElementById("userId").value;
 
-        // Send DELETE request to delete user
         fetch("/api/users/delete_user/" + userId, {
             method: "DELETE"
         })
@@ -60,16 +57,14 @@
         <th>Email</th>
         <th>Role</th>
     </tr>
-    <!-- Loop through users and display each user's information -->
-    <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
-    <!-- Use Thymeleaf to iterate over the list of users -->
+
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.role}"></td>
     </tr>
-    <!-- End of user information -->
+
 </table>
 </body>
 </html>

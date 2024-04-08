@@ -13,10 +13,8 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @JoinColumn(name = "tournament_id")
     private Long tournamentId;
-
 
     @JoinColumn(name = "player1_id", referencedColumnName = "user_id", nullable = false)
     private Long player1_id;
@@ -33,9 +31,6 @@ public class Match {
 
     @Column(name = "match_score")
     private String matchScore;
-
-    // Constructors, getters, setters
-
 
     public Long getId() {
         return id;

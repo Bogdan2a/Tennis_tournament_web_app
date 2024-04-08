@@ -28,11 +28,8 @@ public class UserTournamentServiceImpl implements UserTournamentService {
 
     @Override
     public boolean isUserRegisteredForTournament(Long userId, Long tournamentId) {
-        // Check if there is a record for the user and tournament in the database
         UserTournament userTournament = userTournamentRepository.findByUserIdAndTournamentId(userId, tournamentId);
         return userTournament != null;
     }
 
-
-    // Implement other methods for user tournament management
 }

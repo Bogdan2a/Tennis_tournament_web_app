@@ -7,7 +7,7 @@
 <h1>Update User</h1>
 
 <form id="updateUserForm">
-  <input type="hidden" id="userId" name="userId" th:value="${user.id}"><br> <!-- Pre-fill with user ID -->
+  <input type="hidden" id="userId" name="userId" th:value="${user.id}"><br>
 
   <label for="username">Username:</label><br>
   <input type="text" id="username" name="username"><br>
@@ -15,14 +15,14 @@
   <input type="password" id="password" name="password"><br>
   <label for="email">Email:</label><br>
   <input type="email" id="email" name="email"><br>
-  <!-- Role field is removed -->
+
 
   <button type="submit">Update</button>
 </form>
 
 <p id="message" style="color: red;"></p>
 
-<!-- Display original user information -->
+
 <div id="originalUserInfo">
   <h2>Original User Information</h2>
   <p id="originalUsername">Original Username: </p>
@@ -31,7 +31,7 @@
 </div>
 
 <script>
-  // Function to fetch and display original user information
+
   function displayOriginalUserInfo(userId) {
     fetch("/api/users/user?userId=" + userId)
             .then(response => response.json())
@@ -46,11 +46,10 @@
             });
   }
 
-  // Call the function to display original user information when the page loads
+
   var userId = document.getElementById("userId").value;
   displayOriginalUserInfo(userId);
 
-  // Function to transform password characters
   function transformPassword(password) {
     var transformedPassword = '';
     for (var i = 0; i < password.length; i++) {
@@ -60,9 +59,7 @@
   }
 
   document.getElementById("updateUserForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent form submission
-
-    // Get form data
+    event.preventDefault();
     var formData = {
       userId: document.getElementById("userId").value, // User ID
       username: document.getElementById("username").value,
@@ -70,7 +67,6 @@
       email: document.getElementById("email").value
     };
 
-    // Send PUT request to update user
     fetch("/api/users/update_account/" + formData.userId, {
       method: "PUT",
       headers: {
@@ -80,13 +76,13 @@
     })
             .then(response => {
               if (response.ok) {
-                return response.text(); // Return success message
+                return response.text();
               } else {
-                return response.text(); // Return error message
+                return response.text();
               }
             })
             .then(message => {
-              document.getElementById("message").textContent = message; // Display message
+              document.getElementById("message").textContent = message;
             })
             .catch(error => {
               console.error("Error updating user:", error);

@@ -66,7 +66,6 @@
 
     const exportFormat = document.getElementById('exportFormat').value;
 
-    // Fetch matches and export selected fields for all matches
     fetch('/api/matches')
             .then(response => response.json())
             .then(matches => {

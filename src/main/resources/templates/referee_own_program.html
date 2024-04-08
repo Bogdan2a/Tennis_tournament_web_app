@@ -5,7 +5,6 @@
 </head>
 <body>
 <h1>Welcome, Referee!</h1>
-<!-- Display the referee's schedule -->
 This is your schedule:
 <br>
 
@@ -14,41 +13,37 @@ This is your schedule:
     <th>Schedule ID</th>
     <th>Referee ID</th>
     <th>Match ID</th>
-    <th>Match Date</th> <!-- New column for match date -->
+    <th>Match Date</th>
   </tr>
-  <!-- Loop through referee schedules and display each match -->
+
   <tr th:each="schedule : ${refereeSchedules}">
     <td th:text="${schedule.id}"></td>
     <td th:text="${schedule.refereeId}"></td>
     <td th:text="${schedule.matchId}"></td>
-    <td th:id="'matchDate-' + ${schedule.matchId}" th:data-match-id="${schedule.matchId}"></td> <!-- Add Thymeleaf expressions for match ID -->
+    <td th:id="'matchDate-' + ${schedule.matchId}" th:data-match-id="${schedule.matchId}"></td>
   </tr>
 
-  <!-- End of referee schedule -->
+
 </table>
 
 <script th:inline="javascript">
   /*<![CDATA[*/
-  // Function to fetch match date based on match ID
-  // Function to format the date in the specified format
   function formatDate(dateString) {
     const date = new Date(dateString);
     const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
     return date.toLocaleString('ro-RO', options);
   }
 
-  // Function to fetch match date based on match ID
   function fetchMatchDate(matchId) {
     fetch("/api/matches/get_match_by_id/" + matchId)
             .then(response => {
               if (response.ok) {
-                return response.json(); // Parse response body as JSON
+                return response.json();
               } else {
                 throw new Error('Failed to fetch match details');
               }
             })
             .then(match => {
-              // Display the formatted match date in the corresponding table cell
               const matchDateCell = document.getElementById("matchDate-" + matchId);
               if (matchDateCell) {
                 matchDateCell.textContent = formatDate(match.matchDate);
@@ -59,11 +54,10 @@ This is your schedule:
             });
   }
 
-  // Entry point
   document.addEventListener('DOMContentLoaded', function() {
     const matchCells = document.querySelectorAll('[id^="matchDate-"]');
     matchCells.forEach(function(cell) {
-      var matchId = cell.getAttribute("data-match-id"); // Retrieve match ID from data attribute
+      var matchId = cell.getAttribute("data-match-id");
       fetchMatchDate(matchId);
     });
   });

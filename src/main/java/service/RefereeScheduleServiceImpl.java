@@ -18,5 +18,5 @@ public class RefereeScheduleServiceImpl implements RefereeScheduleService {
     public List<RefereeSchedule> getRefereeSchedulesByRefereeId(Long refereeId) {
         return refereeScheduleRepository.findByRefereeId(refereeId);
     }
-    // Implement other methods for referee schedule management
+
 }

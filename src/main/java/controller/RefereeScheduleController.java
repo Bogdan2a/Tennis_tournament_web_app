@@ -29,5 +29,4 @@ public class RefereeScheduleController {
         return "referee_own_program";
     }
 
-    // Other methods for referee schedule management
 }

@@ -21,7 +21,7 @@
 
 <script>
     document.getElementById("registrationForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
 
         // Get form data
         var formData = {
@@ -31,20 +31,19 @@
             role: document.getElementsByName("role")[0].value
         };
 
-        // Send POST request to register user
         fetch("/api/users/register", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json" // Specify JSON content type
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData) // Convert formData to JSON string
+            body: JSON.stringify(formData)
         })
             .then(response => {
                 if (response.ok) {
-                    // Registration successful
+
                     document.getElementById("registrationMessage").textContent = "User registered successfully";
                 } else {
-                    // Registration failed
+
                     response.text().then(message => {
                         document.getElementById("registrationMessage").textContent = message;
                     });

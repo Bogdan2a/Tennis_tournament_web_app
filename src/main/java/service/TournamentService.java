@@ -8,6 +8,6 @@ import java.util.List;
 public interface TournamentService {
     List<Tournament> getAllTournaments();
     void createTournament(Tournament tournament);
-    // Other methods for tournament management
+
 }
 

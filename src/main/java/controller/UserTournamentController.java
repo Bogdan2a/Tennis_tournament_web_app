@@ -27,16 +27,13 @@ public class UserTournamentController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUserForTournament(@RequestParam Long userId, @RequestParam Long tournamentId) {
-        // Check if the user is already registered for the tournament
+
         if (userTournamentService.isUserRegisteredForTournament(userId, tournamentId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User is already registered for this tournament.");
         }
 
-        // Register the user for the tournament
         userTournamentService.registerUserForTournament(userId, tournamentId);
         return ResponseEntity.ok().build();
     }
 
-
-    // Other methods for user tournament management
 }

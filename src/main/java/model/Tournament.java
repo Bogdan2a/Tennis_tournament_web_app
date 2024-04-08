@@ -20,8 +20,6 @@ public class Tournament {
     @Column(name = "end_date")
     private Date endDate;
 
-    // Constructors, getters, setters
-
     public Long getId() {
         return id;
     }

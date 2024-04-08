@@ -19,8 +19,6 @@ public interface UserService {
 
     User getUserById(Long userId);
 
-
-
     Long getUserIdByUsername(String username);
-    // Other methods for user account management
+
 }

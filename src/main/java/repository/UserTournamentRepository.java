@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserTournamentRepository extends JpaRepository<UserTournament, Long> {
     UserTournament findByUserIdAndTournamentId(Long userId, Long tournamentId);
-    // You can add custom methods for specific queries if needed
+
 }
 

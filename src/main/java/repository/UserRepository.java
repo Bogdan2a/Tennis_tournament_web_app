@@ -13,7 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.role FROM User u WHERE u.username = :username")
     String getUserRoleByUsername(String username);
 
-    // You can add custom methods for specific queries if needed
-    // For example: List<User> findByRole(UserRole role);
 }
 

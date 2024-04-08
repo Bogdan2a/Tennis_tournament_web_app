@@ -39,5 +39,4 @@ public class TournamentController {
         model.addAttribute("tournaments", tournaments);
         return "tournament_registration";
     }
-    // Other methods for tournament management
 }

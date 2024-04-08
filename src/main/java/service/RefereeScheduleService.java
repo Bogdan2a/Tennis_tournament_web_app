@@ -7,7 +7,6 @@ import java.util.List;
 @Service
 public interface RefereeScheduleService {
 
-
     List<RefereeSchedule> getRefereeSchedulesByRefereeId(Long refereeId);
-    // Other methods for referee schedule management
+
 }

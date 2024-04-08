@@ -12,17 +12,13 @@ public class RefereeSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "referee_id")
     @JoinColumn(name = "referee_id")
     private int refereeId;
 
-
     @Column(name = "match_id")
     @JoinColumn(name = "match_id")
     private Long matchId;
-
-    // Constructors, getters, setters
 
     public Long getId() {
         return id;
@@ -47,6 +43,5 @@ public class RefereeSchedule {
     public void setMatchId(Long matchId) {
         this.matchId = matchId;
     }
-
 
 }

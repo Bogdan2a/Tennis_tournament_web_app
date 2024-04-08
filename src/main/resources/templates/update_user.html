@@ -36,20 +36,15 @@
         <th>Email</th>
         <th>Role</th>
     </tr>
-    <!-- Loop through users and display each user's information -->
-    <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
-    <!-- Use Thymeleaf to iterate over the list of users -->
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.role}"></td>
     </tr>
-    <!-- End of user information -->
 </table>
 
 <script>
-    // Fetch user IDs from the backend and populate the dropdown
     fetch("/api/users/all")
         .then(response => response.json())
         .then(users => {
@@ -66,9 +61,8 @@
         });
 
     document.getElementById("updateUserForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
 
-        // Get form data
         var formData = {
             userId: document.getElementById("userId").value,
             username: document.getElementById("username").value,
@@ -77,13 +71,12 @@
             role: document.getElementById("role").value
         };
 
-        // Send PUT request to update user
         fetch("/api/users/update_user/" + formData.userId, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json" // Specify JSON content type
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData) // Convert formData to JSON string
+            body: JSON.stringify(formData)
         })
             .then(response => response.text())
             .then(message => {

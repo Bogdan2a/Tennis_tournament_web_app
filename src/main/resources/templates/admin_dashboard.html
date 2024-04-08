@@ -6,7 +6,7 @@
 <body>
 <h1>Welcome to Administrator Dashboard</h1>
 
-<!-- Greeting message will be inserted here -->
+
 <p id="greetingMessage"></p>
 
 <ul>
@@ -15,26 +15,24 @@
   <li><a href='/api/matches/admin_export_match_info.html'>Export Match Information</a></li>
   <li><a href='#' id="updateAccountLink">Update Account Information</a></li>
 </ul>
-<!--
-<img class="img-fluid" src="https://cdn.discordapp.com/attachments/1064630844024692820/1223763899170558023/52f73066-82fc-4623-aad1-eb6001933b43.jpg?ex=661b09f1&is=660894f1&hm=5a7d9a6daa9017b9b336de5e2b0e8d22ec4a602a506636304326eee10b112019&" alt="">
--->
+
 
 <script>
-  // Extract userId from the URL
+
   var urlParams = new URLSearchParams(window.location.search);
   var userId = urlParams.get('userId');
 
-  // Fetch user details using the userId
+
   fetch("/api/users/get_user_by_id/" + userId)
           .then(response => {
             if (response.ok) {
-              return response.json(); // Parse response body as JSON
+              return response.json();
             } else {
               throw new Error('Failed to fetch user details');
             }
           })
           .then(user => {
-            // Update greeting message with the username
+
             document.getElementById("greetingMessage").textContent = "Greetings, " + user.username + "!";
           })
           .catch(error => {
@@ -43,14 +41,13 @@
             document.getElementById("greetingMessage").textContent = "Failed to fetch user details";
           });
 
-  // Add event listener to the update account link
-  document.getElementById("updateAccountLink").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent default link behavior
 
-    // Construct the URL for updating account information
+  document.getElementById("updateAccountLink").addEventListener("click", function(event) {
+    event.preventDefault();
+
     var updateAccountUrl = '/api/users/update_account.html?userId=' + userId;
 
-    // Redirect to the update account page
+
     window.location.href = updateAccountUrl;
   });
 

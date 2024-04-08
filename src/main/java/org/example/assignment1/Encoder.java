@@ -7,18 +7,16 @@ import java.util.Date;
 
 public class Encoder {
 
-    // Private constructor to prevent instantiation from outside
     private Encoder() {}
 
-    // Singleton instance
+    // singleton instance
     private static final Encoder INSTANCE = new Encoder();
 
-    // Public method to access the singleton instance
     public static Encoder getInstance() {
         return INSTANCE;
     }
 
-    // Method to encode password
+    //encode password
     public static String encodingPassword(String password) {
         StringBuilder encodedPassword = new StringBuilder();
         for (char c : password.toCharArray()) {
@@ -27,8 +25,7 @@ public class Encoder {
         return encodedPassword.toString();
     }
 
-    // Method to decode password (not implemented here)
-    // Add your implementation as needed
+    //decode password
     public static String decodingPassword(String password) {
         StringBuilder decodedPassword = new StringBuilder();
         for (char c : password.toCharArray()) {

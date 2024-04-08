@@ -6,11 +6,9 @@
 <body>
 <h1>Welcome to Your Dashboard</h1>
 <ul id="dashboardLinks">
-  <!-- Dashboard links will be dynamically added here -->
 </ul>
 
 <script>
-  // Function to dynamically add dashboard links based on user role
   function addDashboardLink(linkText, url) {
     var listItem = document.createElement("li");
     var link = document.createElement("a");
@@ -20,10 +18,10 @@
     document.getElementById("dashboardLinks").appendChild(listItem);
   }
 
-  // Get user role from the backend
-  var role = /*[[${userRole}]]*/ "ADMINISTRATOR"; // This will be replaced by the actual user role fetched from the backend
 
-  // Add appropriate dashboard links based on user role
+  var role = /*[[${userRole}]]*/ "ADMINISTRATOR";
+
+
   if (role === "TENNIS_PLAYER") {
     addDashboardLink("Tournament Registration", "/tournament_registration.html");
     addDashboardLink("View Tour Schedule", "/schedule.html");

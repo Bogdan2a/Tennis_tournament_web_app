@@ -24,19 +24,14 @@ public class User {
     @Column(nullable = false, name="role")
     private UserRole role;
 
-    // Constructors
-
     public User() {
     }
-
     public User(String username, String password, String email, UserRole role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
     }
-
-    // Getters and setters
 
     public Long getId() {
         return userId;

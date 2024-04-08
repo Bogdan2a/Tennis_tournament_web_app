@@ -12,6 +12,6 @@ public interface MatchService {
     Match getMatchById(Long matchId);
 
     void updateMatchScore(Long userId, Long matchId, String score);
-    // Other methods for match management
+
 }
 

@@ -15,15 +15,11 @@ public class UserTournament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @JoinColumn(name = "user_id")
     private Long userId;
 
-
     @JoinColumn(name = "tournament_id")
     private Long tournamentId;
-
-    // Constructors, getters, setters
 
     public Long getId() {
         return id;
@@ -36,7 +32,6 @@ public class UserTournament {
     public Long getUserId() {
         return userId;
     }
-
     public void setUserId(Long userId) {
         this.userId = userId;
     }

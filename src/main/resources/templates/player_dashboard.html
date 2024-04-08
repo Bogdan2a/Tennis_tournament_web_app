@@ -6,12 +6,7 @@
 <body>
 <h1>Welcome to Player Dashboard</h1>
 
-<!-- Greeting message will be inserted here -->
 <p id="greetingMessage"></p>
-
-<!--
-<img clasds="img-fluid" src="https://cdn.discordapp.com/attachments/1064630844024692820/1222643910208127057/New_Bitmap_Image_2.bmp?ex=6616f6df&is=660481df&hm=c6fc68ecc25b041549d7337860ceb2669f61f3dae1ba8e9b1f0d753135656e3a&" alt="">
--->
 
 <ul>
   <li><a href='/api/tournaments/tournament_registration.html' id="tournamentRegistrationLink">Tournament Registration</a></li>
@@ -20,58 +15,48 @@
 </ul>
 
 <script>
-  // Extract userId from the URL
   var urlParams = new URLSearchParams(window.location.search);
   var userId = urlParams.get('userId');
 
-  // Fetch user details using the userId
   fetch("/api/users/get_user_by_id/" + userId)
           .then(response => {
             if (response.ok) {
-              return response.json(); // Parse response body as JSON
+              return response.json();
             } else {
               throw new Error('Failed to fetch user details');
             }
           })
           .then(user => {
-            // Update greeting message with the username
+
             document.getElementById("greetingMessage").textContent = "Greetings, " + user.username + "!";
           })
           .catch(error => {
             console.error("Error fetching user details:", error);
-            // Handle error
+
             document.getElementById("greetingMessage").textContent = "Failed to fetch user details";
           });
 
-  // Add event listener to the update account link
-  document.getElementById("updateAccountLink").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent default link behavior
 
-    // Construct the URL for updating account information
+  document.getElementById("updateAccountLink").addEventListener("click", function(event) {
+    event.preventDefault();
+
     var updateAccountUrl = '/api/users/update_account.html?userId=' + userId;
 
-    // Redirect to the update account page
+
     window.location.href = updateAccountUrl;
   });
-  // Add event listener to the update account link
-  document.getElementById("tournamentRegistrationLink").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent default link behavior
 
-    // Construct the URL for updating account information
+  document.getElementById("tournamentRegistrationLink").addEventListener("click", function(event) {
+    event.preventDefault();
     var tournamentRegisterUrl = '/api/tournaments/tournament_registration.html?userId=' + userId;
 
-    // Redirect to the update account page
     window.location.href = tournamentRegisterUrl;
   });
 
-  // Add event listener to the update account link
   document.getElementById("matchScheduleScoreLink").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent default link behavior
-
-    // Construct the URL for updating account information
+    event.preventDefault();
     var matchScheduleScoresUrl = '/api/matches/match_schedule_and_score.html?userId=' + userId;
 
-    // Redirect to the update account page
     window.location.href = matchScheduleScoresUrl;
   });
 </script>

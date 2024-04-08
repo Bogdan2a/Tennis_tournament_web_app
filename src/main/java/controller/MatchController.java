@@ -84,5 +84,4 @@ public class MatchController {
         model.addAttribute("matches", matches);
         return "admin_export_match_info";
     }
-    // Other methods for match management
 }

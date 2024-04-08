@@ -4,7 +4,6 @@
     <title>Create User</title>
 </head>
 <body>
-<!-- Table to display user information -->
 
 <h1>Create User</h1>
 
@@ -34,32 +33,27 @@
         <th>Email</th>
         <th>Role</th>
     </tr>
-    <!-- Loop through users and display each user's information -->
-    <!-- Example: Replace 'users' with the actual list of users passed from the backend -->
-    <!-- Use Thymeleaf to iterate over the list of users -->
+
     <tr th:each="aux : ${users}">
         <td th:text="${aux.id}"></td>
         <td th:text="${aux.username}"></td>
         <td th:text="${aux.email}"></td>
         <td th:text="${aux.role}"></td>
     </tr>
-    <!-- End of user information -->
+
 </table>
 
 <script>
-    // Function to fetch user data and update the table
+
     function fetchAndUpdateUserData() {
         fetch("/api/users/all")
             .then(response => response.json())
             .then(users => {
                 var tableBody = document.getElementById("userTableBody");
-                // Clear existing table rows
                 tableBody.innerHTML = "";
 
-                // Populate table with updated user data
                 users.forEach(user => {
-                    var row = tableBody.insertRow(); // Create a new row
-                    // Insert cells into the new row
+                    var row = tableBody.insertRow();
                     var cell1 = row.insertCell();
                     var cell2 = row.insertCell();
                     var cell3 = row.insertCell();
@@ -75,13 +69,11 @@
             });
     }
 
-    // Add event listener to the "Create" button
-    // Add event listener to the "Create" button
     document.getElementById("createUserForm").addEventListener("submit", function(event) {
 
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
 
-        // Get form data
+
         var formData = {
             username: document.getElementById("username").value,
             password: document.getElementById("password").value,
@@ -89,18 +81,16 @@
             role: document.getElementById("role").value
         };
 
-        // Send POST request to create user
         fetch("/api/users/create_user", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json" // Specify JSON content type
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData) // Convert formData to JSON string
+            body: JSON.stringify(formData)
         })
             .then(response => response.text())
             .then(message => {
                 document.getElementById("message").textContent = message;
-                // Update table after successful user creation
                 fetchAndUpdateUserData();
             })
             .catch(error => {
@@ -108,8 +98,6 @@
             });
     });
 
-
-    // Call the function initially to populate the table
     fetchAndUpdateUserData();
 </script>
 

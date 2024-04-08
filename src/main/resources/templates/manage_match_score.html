@@ -40,20 +40,14 @@
 </table>
 
 <script>
-  // Retrieve user ID from URL
   const userId = new URLSearchParams(window.location.search).get('userId');
   console.log(userId);
-  // Function to populate the dropdown and table
   function populateDropdownAndTable() {
-    // Fetch matches data
     fetch('/api/matches')
             .then(response => response.json())
             .then(matches => {
-              // Clear existing options in the dropdown
               const dropdown = document.getElementById('matchIdSelect');
               dropdown.innerHTML = '';
-
-              // Populate the dropdown and table
               matches.forEach(match => {
                 console.log(match.refereeId + "==" + userId)
                 if (match.refereeId === parseInt(userId)) {
@@ -80,21 +74,16 @@
             });
   }
 
-  // Call the function to populate dropdown and table initially
   populateDropdownAndTable();
 
-  // Function to update match score
   function updateMatchScore() {
-    // Retrieve selected match ID from the dropdown
     const matchId = document.getElementById('matchIdSelect').value;
-    // Retrieve score from input fields
     const score1 = document.getElementById('score1').value;
     const score2 = document.getElementById('score2').value;
     const score3 = document.getElementById('score3').value;
     const score4 = document.getElementById('score4').value;
     const score = `${score1}-${score2}, ${score3}-${score4}`;
 
-    // Send a POST request to update the match score
     fetch(`/api/matches/update_score?userId=${userId}&matchId=${matchId}&score=${score}`, {
       method: 'POST',
     })
@@ -102,11 +91,11 @@
               if (!response.ok) {
                 throw new Error('Failed to update match score');
               }
-              return response.text(); // Success message
+              return response.text();
             })
             .then(message => {
               document.getElementById("message").textContent = message;
-              // After updating, repopulate dropdown and table
+
               populateDropdownAndTable();
             })
             .catch(error => {
