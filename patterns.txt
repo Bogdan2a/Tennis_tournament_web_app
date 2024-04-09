@@ -1,0 +1,12 @@
+Singleton Pattern:
+
+The Encoder class implements the Singleton pattern. 
+It ensures that only one instance of the class is created 
+and provides a global point of access to that instance 
+through the getInstance() method.
+
+
+Repository pattern
+Service pattern
+MVC pattern
+DTO data transfer object Pattern
