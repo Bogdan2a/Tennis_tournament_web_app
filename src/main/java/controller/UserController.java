@@ -1,7 +1,6 @@
 package controller;
 
 import model.User;
-import model.UserRole;
 import org.example.assignment1.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -172,40 +170,6 @@ public class UserController {
         // Return the name of the HTML file
         return "admin_view_users";
     }
-
-    @GetMapping("/referee_view_players.html")
-    public String showRefereeViewPlayers(@RequestParam(required = false) String username,
-                                         @RequestParam(required = false) String email,
-                                         Model model) {
-        // Fetch all users from the database
-        List<User> users = userService.getAllUsers();
-
-        // Apply filtering if username or email is specified
-        if (username != null && !username.isEmpty()) {
-            users = users.stream()
-                    .filter(user -> user.getUsername().contains(username))
-                    .collect(Collectors.toList());
-        }
-
-        if (email != null && !email.isEmpty()) {
-            users = users.stream()
-                    .filter(user -> user.getEmail().contains(email))
-                    .collect(Collectors.toList());
-        }
-
-        UserRole role = UserRole.PLAYER;
-        users = users.stream()
-                .filter(user -> role.equals(user.getRole()))
-                .collect(Collectors.toList());
-
-        // Add the list of filtered users to the model
-        model.addAttribute("filteredUsers", users);
-
-        // Return the name of the HTML file
-        return "referee_view_players";
-    }
-
-
 
 
     @GetMapping("/update_account.html")
