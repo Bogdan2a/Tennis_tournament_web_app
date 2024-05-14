@@ -21,6 +21,10 @@ public class UserTournament {
     @JoinColumn(name = "tournament_id")
     private Long tournamentId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private UserTournamentStatus status;
+
     public Long getId() {
         return id;
     }
@@ -42,5 +46,13 @@ public class UserTournament {
 
     public void setTournamentId(Long tournamentId) {
         this.tournamentId = tournamentId;
+    }
+
+    public UserTournamentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserTournamentStatus status) {
+        this.status = status;
     }
 }
