@@ -26,7 +26,10 @@ public class RefereeScheduleController {
 
         List<RefereeSchedule> refereeSchedules = refereeScheduleService.getRefereeSchedulesByRefereeId(userId);
         model.addAttribute("refereeSchedules", refereeSchedules);
-        return "referee_own_program";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserReferee)
+            return "referee_own_program";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 
 }

@@ -19,11 +19,7 @@ public class TournamentServiceImpl implements TournamentService {
         return tournamentRepository.findAll();
     }
 
-    @Override
-    public void createTournament(Tournament tournament) {
-        // Implement tournament creation logic
-        tournamentRepository.save(tournament);
-    }
+
 
 }
 

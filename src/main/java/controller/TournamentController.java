@@ -25,18 +25,14 @@ public class TournamentController {
         return ResponseEntity.ok().body(tournaments);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createTournament(@RequestBody Tournament tournament) {
-        // Validate tournament data
-        tournamentService.createTournament(tournament);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     @GetMapping("/tournament_registration.html")
     public String showTournamentRegistration(@RequestParam Long userId, Model model) {
         List<Tournament> tournaments = tournamentService.getAllTournaments();
         //System.out.println(tournaments);
         model.addAttribute("tournaments", tournaments);
-        return "tournament_registration";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserPlayer)
+            return "tournament_registration";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 }

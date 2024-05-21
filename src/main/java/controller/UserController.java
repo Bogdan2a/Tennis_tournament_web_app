@@ -51,14 +51,23 @@ public class UserController {
 
     @GetMapping("/login.html")
     public String showLoginPage() {
+        SecurityVariable.isUserLoggedIn = false;
+        SecurityVariable.isUserPlayer = false;
+        SecurityVariable.isUserReferee = false;
+        SecurityVariable.isUserAdmin = false;
         return "login";
+    }
+
+    @GetMapping("/not_logged_in.html")
+    public String showNotLoggedInPage() {
+        return "not_logged_in";
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         boolean isValidUser = userService.validateUserCredentials(user.getUsername(), Encoder.encodingPassword(user.getPassword()));
         if (isValidUser) {
-
+            SecurityVariable.isUserLoggedIn = true;
             String token = userService.loginUser(user);
 
             String userRole = userService.getUserRole(user.getUsername());
@@ -67,12 +76,16 @@ public class UserController {
             String dashboardUrl;
             if ("TENNIS_PLAYER".equals(userRole)) {
                 dashboardUrl = "/api/users/player_dashboard.html?userId=" + userId;
+                SecurityVariable.isUserPlayer = true;
             } else if ("REFEREE".equals(userRole)) {
                 dashboardUrl = "/api/users/referee_dashboard.html?userId=" + userId;
+                SecurityVariable.isUserReferee = true;
             } else if ("ADMIN".equals(userRole)) {
                 dashboardUrl = "/api/users/admin_dashboard.html?userId=" + userId;
+                SecurityVariable.isUserAdmin = true;
             } else {
                 dashboardUrl = "/api/users/player_dashboard.html?userId=" + userId;
+                SecurityVariable.isUserPlayer = true;
             }
             return ResponseEntity.status(HttpStatus.OK).body(dashboardUrl);
         } else {
@@ -83,15 +96,27 @@ public class UserController {
 
     @GetMapping("/player_dashboard.html")
     public String showPlayerDashboard() {
-        return "player_dashboard";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserPlayer) {
+            return "player_dashboard";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @GetMapping("/referee_dashboard.html")
     public String showRefereeDashboard() {
-        return "referee_dashboard";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserReferee) {
+            return "referee_dashboard";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @GetMapping("/admin_dashboard.html")
     public String showAdminDashboard() {
-        return "admin_dashboard";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin) {
+            return "admin_dashboard";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @GetMapping("/admin_user_management.html")
     public String showAdminUserManagement(Model model) {
@@ -100,7 +125,11 @@ public class UserController {
 
         model.addAttribute("users", users);
 
-        return "admin_user_management";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin) {
+            return "admin_user_management";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @GetMapping("/create_user.html")
     public String showCreateUser(Model model) {
@@ -109,7 +138,11 @@ public class UserController {
             System.out.println(user.getId());
         }
         model.addAttribute("users", users);
-        return "create_user";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin) {
+            return "create_user";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @PostMapping("/create_user")
     public ResponseEntity<String> createUser(@RequestBody User user) {
@@ -128,7 +161,11 @@ public class UserController {
     public String showUpdateUser(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "update_user";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin) {
+            return "update_user";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @PutMapping("/update_user/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody User user) {
@@ -147,7 +184,11 @@ public class UserController {
     public String showDeleteUser(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "delete_user";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin) {
+            return "delete_user";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
     @DeleteMapping("/delete_user/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
@@ -170,7 +211,11 @@ public class UserController {
         model.addAttribute("users", users);
 
         // Return the name of the HTML file
-        return "admin_view_users";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin) {
+            return "admin_view_users";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
 
     @GetMapping("/referee_view_players.html")
@@ -202,7 +247,11 @@ public class UserController {
         model.addAttribute("filteredUsers", users);
 
         // Return the name of the HTML file
-        return "referee_view_players";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserReferee) {
+            return "referee_view_players";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
 
 
@@ -220,7 +269,11 @@ public class UserController {
         model.addAttribute("user", user);
 
         // Return the name of the HTML file
-        return "update_account";
+        if(SecurityVariable.isUserLoggedIn) {
+            return "update_account";
+        } else {
+            return "redirect:/api/users/not_logged_in.html";
+        }
     }
 
     @PutMapping("/update_account/{userId}")

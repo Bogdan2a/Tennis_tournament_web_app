@@ -30,7 +30,10 @@ public class MatchController {
         //fetch all matches
         List<Match> matches = matchService.getAllMatches();
         model.addAttribute("matches", matches);
-        return "match_schedule_and_score";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserPlayer)
+            return "match_schedule_and_score";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 
     @GetMapping("/manage_match_score.html")
@@ -40,7 +43,10 @@ public class MatchController {
 
         // Pass matches data to the template
         model.addAttribute("matches", matches);
-        return "manage_match_score";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserReferee)
+            return "manage_match_score";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 
     @PostMapping("/update_score")
@@ -82,6 +88,9 @@ public class MatchController {
 
         }
         model.addAttribute("matches", matches);
-        return "admin_export_match_info";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin)
+            return "admin_export_match_info";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 }

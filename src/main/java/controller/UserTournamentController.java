@@ -58,7 +58,10 @@ public class UserTournamentController {
 
         System.out.println(userTournaments.size());
         model.addAttribute("userTournaments", userTournaments);
-        return "admin_registration_approval";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin)
+            return "admin_registration_approval";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 
     @PostMapping("/accept")
@@ -81,12 +84,18 @@ public class UserTournamentController {
 
     @GetMapping("/accept.html")
     public String showAcceptPage(Model model) {
-        return "accept";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin)
+            return "accept";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 
     @GetMapping("/reject.html")
     public String showRejectPage(Model model) {
-        return "reject";
+        if(SecurityVariable.isUserLoggedIn && SecurityVariable.isUserAdmin)
+            return "reject";
+        else
+            return "redirect:/api/users/not_logged_in.html";
     }
 
     @PostMapping("/reject")
